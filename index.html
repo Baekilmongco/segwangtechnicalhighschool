@@ -521,6 +521,116 @@
     display: inline-block;
   }
 
+  /* ── 안내서 목록 ── */
+  .guide-list {
+    list-style: none;
+    margin: 20px 0 24px;
+    border-top: 1px solid var(--paper-dark);
+  }
+
+  .guide-list li {
+    display: flex;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--paper-dark);
+    align-items: baseline;
+  }
+
+  .guide-num {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: var(--red-seal);
+    min-width: 52px;
+    padding-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .guide-text {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--ink);
+    font-weight: 300;
+  }
+
+  .guide-text strong {
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  /* ── 경고 (글리치 스타일) ── */
+  .glitch-warning {
+    background: var(--ink);
+    padding: 20px 24px;
+    position: relative;
+    margin-top: 4px;
+  }
+
+  .glitch-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--red-seal);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .glitch-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    line-height: 2;
+    color: var(--paper);
+    font-weight: 300;
+  }
+
+  /* ── 밴드 링크 섹션 ── */
+  .band-section {
+    background: var(--ink);
+    padding: 40px 48px;
+    text-align: center;
+    position: relative;
+  }
+
+  .band-section::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border: 1px solid rgba(240,236,226,0.15);
+    pointer-events: none;
+  }
+
+  .band-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: rgba(240,236,226,0.4);
+    margin-bottom: 20px;
+    text-transform: uppercase;
+  }
+
+  .band-cta {
+    display: inline-block;
+    padding: 13px 36px;
+    border: 1px solid rgba(240,236,226,0.6);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.25em;
+    color: var(--paper);
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+
+  .band-cta:hover { background: rgba(240,236,226,0.08); }
+
+  .band-note {
+    margin-top: 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    color: rgba(240,236,226,0.25);
+  }
+
   /* ════════════════════════════
      모바일 반응형
   ════════════════════════════ */
@@ -585,6 +695,17 @@
     /* 스크롤 힌트 */
     .scroll-hint  { margin-top: 20px; }
     .scroll-hint-text { font-size: 9px; letter-spacing: 0.2em; }
+
+    /* 안내서 */
+    .guide-list li { gap: 10px; }
+    .guide-num  { min-width: 44px; font-size: 8.5px; }
+    .guide-text { font-size: 12px; }
+    .glitch-warning { padding: 16px 16px; }
+    .glitch-text { font-size: 12px; }
+
+    /* 밴드 */
+    .band-section { padding: 28px 20px; }
+    .band-cta { font-size: 10px; padding: 11px 24px; }
   }
 </style>
 </head>
@@ -734,6 +855,63 @@
         <div class="record-tag">칠판 문구 — #5</div>
         <div class="record-text">선생님을 피해— 선생님은 <span class="redacted">REDACTED</span></div>
       </div>
+    </div>
+
+    <!-- 진입자 안내서 -->
+    <div class="section">
+      <div class="section-label">참가자 안내서</div>
+      <div class="section-title">세광공업고등학교 입학 전 고지사항</div>
+      <p>본 안내서는 세광공업고등학교 진입 확정자에 한하여 배포됩니다. 아래 사항을 숙지하지 못하여 발생하는 피해에 대해 본사는 책임을 지지 않습니다.</p>
+
+      <ol class="guide-list">
+        <li>
+          <span class="guide-num">제1항</span>
+          <span class="guide-text">본 탐사는 <strong>2주 단기</strong>로 제한됩니다.</span>
+        </li>
+        <li>
+          <span class="guide-num">제2항</span>
+          <span class="guide-text">2026년 기준 성인 여성만 입장이 가능합니다.</span>
+        </li>
+        <li>
+          <span class="guide-num">제3항</span>
+          <span class="guide-text">진입 후 <strong>24시간 이내에 명찰을 미부착</strong>한 경우, 해당 고등학교 내에서 사망 처리됩니다. 현실로 귀환하게 됩니다.</span>
+        </li>
+        <li>
+          <span class="guide-num">제4항</span>
+          <span class="guide-text">반캐입 이상, 완캐입을 지향합니다.</span>
+        </li>
+        <li>
+          <span class="guide-num">제5항</span>
+          <span class="guide-text">외내부는 알림장(피드)에 본인의 말투로 기재합니다.</span>
+        </li>
+        <li>
+          <span class="guide-num">제6항</span>
+          <span class="guide-text">2차 인장 사용 시 알림장(피드)에 출처를 기입합니다.</span>
+        </li>
+        <li>
+          <span class="guide-num">제7항</span>
+          <span class="guide-text">인원 마감 후 추가 인원(전학생)을 1회 한하여 모집할 예정입니다.</span>
+        </li>
+        <li>
+          <span class="guide-num">제8항</span>
+          <span class="guide-text">진입 탐사자들은 장르 내 오리지널 캐릭터만 수용합니다.</span>
+        </li>
+      </ol>
+
+      <div class="glitch-warning">
+        <div class="glitch-label">경고</div>
+        <div class="glitch-text">
+          몰입을 깨는 행위 시 외부인으로 처리되어 사망의 가능성이 있습니다. 고등학생으로서 걸맞는 행동을 하십시오.<br><br>
+          다만, 본인이 직원 및 요원이라는 사실을 절대로 잊으면 안 됩니다-잊으면 안 됩니다-절대잊으면 안 됩니-잊으면 됩니다. 
+        </div>
+      </div>
+    </div>
+
+    <!-- 밴드 링크 -->
+    <div class="band-section">
+      <div class="band-label">세광공업고등학교 — 진입 경로</div>
+      <a href="https://band.us/n/a4a5bc49zfiex" class="band-cta" target="_blank">→ 밴드 입장하기</a>
+      <div class="band-note">본 링크는 인가된 요원 및 직원에 한하여 유효합니다.</div>
     </div>
 
   </div>
