@@ -520,6 +520,72 @@
     padding: 0 4px;
     display: inline-block;
   }
+
+  /* ════════════════════════════
+     모바일 반응형
+  ════════════════════════════ */
+  @media (max-width: 600px) {
+    .page-warning { padding: 20px 12px; }
+    .page-notice  { padding: 0 12px 48px; }
+
+    /* 경고문 헤더 */
+    .alert-band   { padding: 8px 20px; }
+    .warn-header  { padding: 20px 20px 20px; }
+    .warn-body    { padding: 24px 20px 28px; }
+    .warn-footer  { padding: 12px 20px; flex-direction: column; gap: 4px; align-items: flex-start; }
+    .warn-title   { font-size: 22px; }
+
+    /* doc-id 겹침 해결 — 절대위치 해제하고 일반 흐름으로 */
+    .doc-id {
+      position: static;
+      text-align: left;
+      margin-bottom: 8px;
+      line-height: 1.6;
+    }
+    .agency-line  { margin-bottom: 8px; font-size: 9px; letter-spacing: 0.1em; }
+
+    /* restrict-box */
+    .restrict-box  { padding: 20px 16px 48px; }
+    .restrict-text { font-size: 13px; line-height: 1.9; }
+    .stamp         { font-size: 9px; padding: 4px 10px; bottom: 12px; right: 12px; }
+    .caution-text  { font-size: 12px; }
+
+    /* 홍보지 헤더 */
+    .doc-header   { padding: 20px 20px 20px; }
+    .header-agency-line { font-size: 9px; letter-spacing: 0.1em; }
+    .main-title   { font-size: 26px; }
+    .sub-title    { font-size: 11px; }
+    .classification-stamp { font-size: 9px; letter-spacing: 0.2em; }
+
+    /* 섹션 */
+    .section      { padding: 24px 20px; }
+    .section-title { font-size: 16px; }
+
+    p             { font-size: 12.5px; line-height: 1.9; }
+
+    /* 텍스트본 박스 */
+    .textfile-box { padding: 16px 16px; }
+    .textfile-content { font-size: 12px; }
+    .textfile-content .first-line { font-size: 13.5px; }
+
+    /* 매뉴얼 그리드: 모바일에서 1열 */
+    .manual-grid  { grid-template-columns: 1fr; }
+    .manual-item p { font-size: 11.5px; }
+
+    /* 경고블록 */
+    .warning-block { padding: 14px 14px; }
+    .warning-block p { font-size: 12px; }
+
+    /* 탐사기록 */
+    .record-text  { font-size: 12px; }
+
+    /* full-width-note */
+    .full-width-note { font-size: 9px; }
+
+    /* 스크롤 힌트 */
+    .scroll-hint  { margin-top: 20px; }
+    .scroll-hint-text { font-size: 9px; letter-spacing: 0.2em; }
+  }
 </style>
 </head>
 <body>
