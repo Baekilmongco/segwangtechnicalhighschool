@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>검은 그늘 속에서 — 세광공업고등학교</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700&family=Noto+Sans+KR:wght@300;400;500&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --paper: #f0ece2;
+    --paper-dark: #ddd8c8;
+    --ink: #1a1814;
+    --ink-faded: #5a5448;
+    --ink-very-faded: #9a9080;
+    --red-seal: #8b1a1a;
+    --stamp-blue: #1a3a5c;
+    --green-mark: #1a4a2a;
+    --warn: #5c3a00;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #2a2520;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--ink);
+  }
+
+  /* ════════════════════════════
+     1페이지 — 경고문 (화면 꽉 참)
+  ════════════════════════════ */
+  .page-warning {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    position: relative;
+  }
+
+  .page-warning .document {
+    background: var(--paper);
+    max-width: 720px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 4px 60px rgba(0,0,0,0.7), inset 0 0 40px rgba(0,0,0,0.05);
+  }
+
+  /* 스크롤 유도 화살표 */
+  .scroll-hint {
+    margin-top: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    animation: bounce 2s infinite;
+    cursor: default;
+  }
+
+  .scroll-hint-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: rgba(240,236,226,0.45);
+    text-transform: uppercase;
+  }
+
+  .scroll-hint-arrow {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid rgba(240,236,226,0.35);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.7; }
+    50% { transform: translateY(8px); opacity: 1; }
+  }
+
+  /* ════════════════════════════
+     구분선 (두 문서 사이)
+  ════════════════════════════ */
+  .divider {
+    height: 60px;
+    background: #2a2520;
+  }
+
+  /* ════════════════════════════
+     2페이지 — 홍보지
+  ════════════════════════════ */
+  .page-notice {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px 80px;
+  }
+
+  .page-notice .document {
+    background: var(--paper);
+    max-width: 720px;
+    width: 100%;
+    position: relative;
+    box-shadow: 0 4px 60px rgba(0,0,0,0.7), inset 0 0 40px rgba(0,0,0,0.05);
+  }
+
+  /* ════════════════════════════
+     공통 종이 질감
+  ════════════════════════════ */
+  .document::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 27px,
+      rgba(0,0,0,0.03) 27px, rgba(0,0,0,0.03) 28px
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .document > * { position: relative; z-index: 2; }
+
+  /* ════════════════════════════
+     경고문 스타일
+  ════════════════════════════ */
+  .alert-band {
+    background: var(--red-seal);
+    padding: 10px 48px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .alert-band-text {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: #f0ece2;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .alert-band-line {
+    flex: 1;
+    height: 0.5px;
+    background: rgba(240,236,226,0.3);
+  }
+
+  .warn-header {
+    padding: 32px 48px 28px;
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+  }
+
+  .agency-line {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faded);
+    margin-bottom: 20px;
+  }
+
+  .doc-id {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-very-faded);
+    text-align: right;
+    position: absolute;
+    top: 32px;
+    right: 48px;
+    line-height: 1.8;
+  }
+
+  .warn-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .warn-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--ink-very-faded);
+  }
+
+  .warn-body {
+    padding: 36px 48px 40px;
+  }
+
+  .restrict-box {
+    border: 1.5px solid var(--ink);
+    padding: 28px 32px;
+    position: relative;
+    margin-bottom: 28px;
+  }
+
+  .restrict-box::before {
+    content: '열람 제한';
+    position: absolute;
+    top: -11px;
+    left: 20px;
+    background: var(--paper);
+    padding: 0 10px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ink);
+  }
+
+  .restrict-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 15px;
+    line-height: 2.1;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .stamp {
+    position: absolute;
+    bottom: 20px;
+    right: 24px;
+    border: 2.5px solid var(--red-seal);
+    color: var(--red-seal);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    padding: 6px 14px;
+    transform: rotate(3deg);
+    opacity: 0.7;
+  }
+
+  .caution-block {
+    border-left: 3px solid var(--warn);
+    padding: 14px 18px;
+    background: #e8dfc8;
+  }
+
+  .caution-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--warn);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .caution-text {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12.5px;
+    line-height: 1.8;
+    color: var(--warn);
+    font-weight: 400;
+  }
+
+  .warn-footer {
+    padding: 16px 48px;
+    border-top: 2px solid var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-code {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    color: var(--ink-very-faded);
+    letter-spacing: 0.2em;
+  }
+
+  /* ════════════════════════════
+     홍보지 스타일
+  ════════════════════════════ */
+  .doc-header {
+    padding: 32px 48px 24px;
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+  }
+
+  .header-agency-line {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--ink-faded);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .main-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 12px 0 8px;
+    color: var(--ink);
+  }
+
+  .sub-title {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13px;
+    color: var(--ink-faded);
+    letter-spacing: 0.08em;
+    font-weight: 300;
+  }
+
+  .classification-stamp {
+    display: inline-block;
+    border: 2px solid var(--red-seal);
+    color: var(--red-seal);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    padding: 4px 12px;
+    margin-top: 16px;
+    transform: rotate(-1.5deg);
+  }
+
+  .section {
+    padding: 32px 48px;
+    border-bottom: 1px solid var(--paper-dark);
+  }
+
+  .section-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.35em;
+    color: var(--stamp-blue);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid var(--stamp-blue);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 0.5px;
+    background: var(--paper-dark);
+  }
+
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  p {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 13.5px;
+    line-height: 2;
+    color: var(--ink-faded);
+    font-weight: 300;
+    margin-bottom: 12px;
+  }
+
+  .textfile-box {
+    background: #ffffff;
+    border: 1px solid #c8bfa8;
+    padding: 24px 28px;
+    margin: 20px 0;
+    font-family: 'Share Tech Mono', monospace;
+    position: relative;
+  }
+
+  .textfile-box::before {
+    content: '📄 검은 그늘 속에서.txt';
+    display: block;
+    font-size: 11px;
+    color: var(--ink-faded);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--ink-very-faded);
+  }
+
+  .textfile-content {
+    font-size: 12.5px;
+    line-height: 2;
+    color: var(--ink);
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 300;
+  }
+
+  .textfile-content .first-line {
+    font-size: 15px;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .corrupted {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-very-faded);
+    word-break: break-all;
+    line-height: 1.6;
+    margin: 12px 0;
+  }
+
+  .file-error {
+    color: var(--red-seal);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    margin-top: 12px;
+    padding: 8px 0;
+    border-top: 1px solid var(--paper-dark);
+  }
+
+  .manual-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 16px 0;
+  }
+
+  .manual-item {
+    background: #e8e0cc;
+    border-left: 3px solid var(--stamp-blue);
+    padding: 12px 14px;
+  }
+
+  .manual-item.danger { border-left-color: var(--red-seal); }
+  .manual-item.safe { border-left-color: var(--green-mark); }
+
+  .manual-item-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--stamp-blue);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .manual-item.danger .manual-item-title { color: var(--red-seal); }
+  .manual-item.safe .manual-item-title { color: var(--green-mark); }
+
+  .manual-item p {
+    font-size: 12px;
+    line-height: 1.7;
+    margin: 0;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .warning-block {
+    border: 1.5px solid var(--warn);
+    padding: 16px 20px;
+    margin: 20px 0;
+    position: relative;
+  }
+
+  .warning-block::before {
+    content: '⚠ 주의';
+    position: absolute;
+    top: -10px;
+    left: 16px;
+    background: var(--paper);
+    padding: 0 8px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--warn);
+  }
+
+  .warning-block p {
+    font-size: 12.5px;
+    color: var(--warn);
+    margin: 0;
+    font-weight: 400;
+  }
+
+  .record-entry {
+    border-top: 1px dashed var(--paper-dark);
+    padding: 16px 0;
+  }
+
+  .record-entry:first-child { border-top: none; }
+
+  .record-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--ink-very-faded);
+    margin-bottom: 6px;
+  }
+
+  .record-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--ink-faded);
+    font-weight: 300;
+    font-style: italic;
+  }
+
+  .full-width-note {
+    background: #ddd5be;
+    padding: 10px 16px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    color: var(--ink-faded);
+    letter-spacing: 0.1em;
+    margin: 16px 0;
+  }
+
+  .redacted {
+    background: var(--ink);
+    color: var(--ink);
+    padding: 0 4px;
+    display: inline-block;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     1페이지 — 경고문
+══════════════════════════════ -->
+<div class="page-warning">
+  <div class="document">
+
+    <div class="alert-band">
+      <div class="alert-band-line"></div>
+      <div class="alert-band-text">접근 제한 문서</div>
+      <div class="alert-band-line"></div>
+    </div>
+
+    <div class="warn-header">
+      <div class="agency-line">백일몽 주식회사 — 초자연 재난관리국 공동 열람 문서</div>
+      <div class="doc-id">
+        식별코드 Qterw-()-62<br>
+        등록번호 2845PSYA.2016.하53
+      </div>
+      <div class="warn-title">열람 전 고지사항</div>
+      <div class="warn-sub">notice before access — daydream inc.</div>
+    </div>
+
+    <div class="warn-body">
+      <div class="restrict-box">
+        <div class="restrict-text">
+          본 문서는 백일몽 주식회사 소속 직원 및 초자연 재난관리국 인가 요원에 한하여 열람이 허가된다. 해당 어둠과 무관한 민간인의 무단 열람으로 인한 피해에 대해 본사는 책임을 지지 않는다.
+        </div>
+        <div class="stamp">무단열람금지</div>
+      </div>
+
+      <div class="caution-block">
+        <div class="caution-label">주의</div>
+        <div class="caution-text">
+          해당 홍보지는 &lt;괴담에 떨어져도 출근을 해야 하는구나&gt; 72화 이후 내용에 대한 스포일러를 담고 있습니다.
+        </div>
+      </div>
+    </div>
+
+    <div class="warn-footer">
+      <div class="footer-code">DAYDREAM INC. — INTERNAL USE ONLY</div>
+      <div class="footer-code">Qterw-()-62 · REV.01</div>
+    </div>
+
+  </div>
+
+  <!-- 스크롤 유도 -->
+  <div class="scroll-hint">
+    <div class="scroll-hint-text">아래로 스크롤하여 넘기시오</div>
+    <div class="scroll-hint-arrow"></div>
+  </div>
+</div>
+
+<!-- 구분선 -->
+<div class="divider"></div>
+
+<!-- ══════════════════════════════
+     2페이지 — 홍보지
+══════════════════════════════ -->
+<div class="page-notice">
+  <div class="document">
+
+    <div class="doc-header">
+      <div class="header-agency-line">백일몽 주식회사 내부 배포용 — 초자연 재난관리국 공동 열람</div>
+      <div class="doc-id">
+        식별코드 Qterw-()-62<br>
+        등록번호 2845PSYA.2016.하53
+      </div>
+      <div class="main-title">검은 그늘 속에서</div>
+      <div class="sub-title">세광공업고등학교 어둠 — 탐사 매뉴얼 및 참가자 안내문</div>
+      <div class="classification-stamp">민감 / 배포 제한</div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">진입 텍스트본</div>
+      <p>아래는 인터넷에 유포 중인 텍스트 파일의 원문입니다. 그믐날 밤 해당 파일을 완독한 후 취침 시 확률적으로 세광공업고등학교에 진입하게 됩니다.</p>
+
+      <div class="textfile-box">
+        <div class="textfile-content">
+          <span class="first-line">이 모든 건 우리의 졸업식날 일어났다.</span>
+          졸업식 행사 준비에 지원한 학생들은 학교에서 마지막 밤을 보냈다.<br>
+          새로운 커플이 생기고, 절친이 싸우고, 누군가의 비밀이 폭로되기도 하는 와중—<br><br>
+          갑자기 교내 방송이 울렸다.<br><br>
+          <em>［졸업식이 시작되었습니다.］<br>
+          ［참석하지 않은 학생에게 벌점을 주기 위해, 지금 선생님이 강당에서 출발합니다.］</em>
+        </div>
+        <div class="corrupted">₩ub124₩uac00₩u0020₩uc774₩u0020₩uae00₩uc744₩u0020₩uc77d₩ub294₩ub2e4₩ub294₩u0020₩uac74₩u0020₩ud3b8₩ubc95₩uc744₩u0020₩uc4f0₩uace0₩u0020₩uc788₩ub2e4₩ub294₩u0020₩ub73b₩uc774₩ub2e4₩u002e</div>
+        <div class="file-error">// 파일을 열 수 없습니다.</div>
+      </div>
+
+      <div class="warning-block">
+        <p>위 텍스트를 그믐날 밤 완독 후 취침하면 확률적으로 진입이 발생합니다. 확정 진입을 원하는 경우 고등학교 시절 사진 뒷면에 학년·반을 메모한 뒤 베개 밑에 넣고 주무십시오. 베개 밑에 함께 둔 소지품은 어둠 내부로 반입됩니다.</p>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">어둠 개요</div>
+      <div class="section-title">세광공업고등학교</div>
+      <p>현실에서는 소재지를 확인할 수 없는 학교. 5층 구조이며, 각 층의 특성이 상이합니다. 외부인은 꿈속에서 고등학교 시절 외형으로, 자신의 출신 고교 교복을 착용한 채 나타납니다.</p>
+      <p>꿈속 사망 시 현실에서는 상처 없이 기상하므로 안전 어둠으로 분류되어 있으나, <strong>명찰 미보유 상태로 사망 시 매 그믐달마다 재진입이 발생</strong>하며 '선생님'에 의한 사망은 현실 소멸을 초래하므로 각별한 주의가 필요합니다.</p>
+
+      <div class="full-width-note">꿈결 용액 등급 — 대부분 D 또는 F / 아이템 파밍 어둠으로 분류 중</div>
+
+      <div class="manual-grid">
+        <div class="manual-item">
+          <div class="manual-item-title">1–3층 / 학생 구역</div>
+          <p>시선이 닿으면 정지, 시선이 떠나면 비인간적 속도로 이동. 소리에 반응하여 우선 추격. 문을 잠그면 비활성화 가능.</p>
+        </div>
+        <div class="manual-item danger">
+          <div class="manual-item-title">4층 / 3학년 구역</div>
+          <p>사망 방송 없음. 100구 이상의 개체가 복도에 고정 배치. 손전등으로 시선을 유지하며 통과 가능.</p>
+        </div>
+        <div class="manual-item danger">
+          <div class="manual-item-title">5층 / 강당</div>
+          <p>졸업생 또는 명찰 양식 착용자만 진입 가능. 수백 명의 3학년이 의자와 일체화된 상태. 12번 기록 이후 탐사 금지.</p>
+        </div>
+        <div class="manual-item safe">
+          <div class="manual-item-title">양호실 루트</div>
+          <p>부상 학생을 명찰 미제거 상태로 눕힌 후 노크 진입. 교복 양도 성사 시 '학생 루트' 진입 가능.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-label">선별 탐사기록</div>
+
+      <div class="record-entry">
+        <div class="record-tag">탐사기록 #9 — 녹음 발췌</div>
+        <div class="record-text">4층 학생들은 못 움직이더라고요. 발이 교실 바닥에 붙어 있는 것 같아요.</div>
+      </div>
+
+      <div class="record-entry">
+        <div class="record-tag">탐사기록 #12 — 마지막 녹음</div>
+        <div class="record-text">절대 5층에 올라오지마!! 차라리 그 밑에서 죽어 절대 올라오—</div>
+      </div>
+
+      <div class="record-entry">
+        <div class="record-tag">음악실 바닥 노트 — 낙서</div>
+        <div class="record-text">자다 일어났는데 왜 학교에 있냐. 졸업식 준비? 이게 무슨 소리야 지금 5월인데?</div>
+      </div>
+
+      <div class="record-entry">
+        <div class="record-tag">칠판 문구 — #5</div>
+        <div class="record-text">선생님을 피해— 선생님은 <span class="redacted">REDACTED</span></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
