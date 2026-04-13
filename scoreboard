@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세광공업고등학교 — 동아리 상벌점</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500&family=Gaegu:wght@300;400;700&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1a1a1a;
+    font-family: 'Noto Sans KR', sans-serif;
+    padding: 48px 32px 64px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 48px;
+  }
+
+  /* ── 페이지 헤더 ── */
+  .page-header {
+    text-align: center;
+    color: rgba(255,255,255,0.25);
+    font-family: 'Gaegu', cursive;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+  }
+
+  /* ── 칠판 공통 ── */
+  .board-wrap {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  /* 칠판 걸이 */
+  .board-hanger {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 24px;
+    margin-bottom: -2px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .hanger-peg {
+    width: 14px;
+    height: 20px;
+    background: #5a4a2a;
+    border-radius: 2px 2px 4px 4px;
+    position: relative;
+  }
+
+  .hanger-peg::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 8px;
+    background: #7a6a3a;
+    border-radius: 50% 50% 0 0;
+  }
+
+  /* 칠판 테두리 (나무 프레임) */
+  .board-frame {
+    background: #3d2b0f;
+    padding: 14px 14px 18px;
+    border-radius: 4px;
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.7),
+      inset 0 1px 0 rgba(255,255,255,0.05),
+      inset 0 -2px 4px rgba(0,0,0,0.4);
+    position: relative;
+  }
+
+  /* 나무 결 느낌 */
+  .board-frame::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background: repeating-linear-gradient(
+      92deg,
+      transparent,
+      transparent 60px,
+      rgba(0,0,0,0.06) 60px,
+      rgba(0,0,0,0.06) 61px
+    );
+    pointer-events: none;
+  }
+
+  /* 칠판 면 */
+  .board-surface {
+    background: #2d4a35;
+    border-radius: 2px;
+    padding: 28px 32px 32px;
+    position: relative;
+    overflow: hidden;
+    min-height: 240px;
+  }
+
+  /* 분필 먼지 느낌 */
+  .board-surface::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 80%, rgba(255,255,255,0.015) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 20%, rgba(255,255,255,0.02) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.008) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* 칠판 아래 분필 받침대 */
+  .board-ledge {
+    background: #2a1f08;
+    height: 14px;
+    border-radius: 0 0 3px 3px;
+    position: relative;
+    margin-top: -1px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  }
+
+  /* 분필 조각들 */
+  .board-ledge::before {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 28px;
+    width: 28px;
+    height: 7px;
+    background: #e8e0cc;
+    border-radius: 3px;
+    opacity: 0.6;
+    box-shadow: 50px 0 0 rgba(232,224,204,0.4), 90px 1px 0 rgba(232,224,204,0.3);
+  }
+
+  /* ── 칠판 내용 ── */
+  .club-name {
+    font-family: 'Gaegu', cursive;
+    font-size: 26px;
+    font-weight: 700;
+    color: rgba(255,255,255,0.88);
+    text-align: center;
+    margin-bottom: 6px;
+    text-shadow: 0 0 8px rgba(255,255,255,0.1);
+    letter-spacing: 0.05em;
+  }
+
+  /* 분필 밑줄 */
+  .chalk-divider {
+    height: 2px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 1px;
+    margin: 12px 0 20px;
+    position: relative;
+  }
+
+  /* 분필 특유의 끊김 */
+  .chalk-divider::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 30%;
+    width: 8%;
+    height: 100%;
+    background: #2d4a35;
+  }
+
+  /* 점수 그리드 */
+  .score-grid {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr 1px 1fr;
+    gap: 0;
+    margin: 0 8px;
+  }
+
+  .score-divider-v {
+    background: rgba(255,255,255,0.12);
+    margin: 8px 0;
+  }
+
+  .score-cell {
+    text-align: center;
+    padding: 8px 12px 12px;
+  }
+
+  .score-label {
+    font-family: 'Gaegu', cursive;
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 10px;
+    letter-spacing: 0.1em;
+  }
+
+  .score-value {
+    font-family: 'Gaegu', cursive;
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1;
+    color: rgba(255,255,255,0.9);
+    text-shadow: 0 0 12px rgba(255,255,255,0.15);
+  }
+
+  .score-value.positive { color: rgba(160,220,160,0.9); text-shadow: 0 0 12px rgba(160,220,160,0.2); }
+  .score-value.negative { color: rgba(220,140,140,0.9); text-shadow: 0 0 12px rgba(220,140,140,0.2); }
+  .score-value.total    { color: rgba(255,240,180,0.9); text-shadow: 0 0 12px rgba(255,240,180,0.2); }
+
+  /* 초기값 0점 표시 */
+  .score-value.zero { color: rgba(255,255,255,0.25); }
+
+  /* 메모 칸 */
+  .memo-area {
+    margin-top: 20px;
+    border-top: 1.5px dashed rgba(255,255,255,0.1);
+    padding-top: 14px;
+  }
+
+  .memo-label {
+    font-family: 'Gaegu', cursive;
+    font-size: 11px;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.2em;
+    margin-bottom: 8px;
+  }
+
+  .memo-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .memo-line {
+    height: 1px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 1px;
+  }
+
+  /* ── 각 동아리별 칠판 색상 변주 ── */
+  /* 학생회 — 기본 초록 */
+  .board-student-council .board-surface { background: #2d4a35; }
+
+  /* 방송부 — 어두운 청록 */
+  .board-broadcast .board-surface { background: #1e3a4a; }
+
+  /* 밴드부 — 어두운 자주 */
+  .board-band .board-surface { background: #3a2040; }
+  .board-band .board-frame   { background: #2a1a0a; }
+
+  /* 사진부 — 어두운 남색 */
+  .board-photo .board-surface { background: #1e2a45; }
+
+  /* 졸업식 준비부 — 거의 검정, 으스스하게 */
+  .board-graduation .board-surface {
+    background: #1a1f1a;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.6);
+  }
+  .board-graduation .club-name { color: rgba(200,220,200,0.7); }
+  .board-graduation .chalk-divider { background: rgba(200,220,200,0.12); }
+
+  /* 임시 배지 */
+  .temp-badge {
+    display: inline-block;
+    font-family: 'Gaegu', cursive;
+    font-size: 11px;
+    color: rgba(255,220,120,0.6);
+    border: 1px solid rgba(255,220,120,0.25);
+    padding: 1px 8px;
+    border-radius: 2px;
+    margin-bottom: 10px;
+    letter-spacing: 0.15em;
+  }
+
+  /* 날짜 */
+  .board-date {
+    position: absolute;
+    bottom: 14px;
+    right: 20px;
+    font-family: 'Gaegu', cursive;
+    font-size: 11px;
+    color: rgba(255,255,255,0.2);
+    letter-spacing: 0.1em;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">세광공업고등학교 — 동아리 상벌점 현황</div>
+
+<!-- ① 학생회 -->
+<div class="board-wrap board-student-council">
+  <div class="board-hanger">
+    <div class="hanger-peg"></div>
+    <div class="hanger-peg"></div>
+  </div>
+  <div class="board-frame">
+    <div class="board-surface">
+      <div class="club-name">학생회</div>
+      <div class="chalk-divider"></div>
+      <div class="score-grid">
+        <div class="score-cell">
+          <div class="score-label">상  점</div>
+          <div class="score-value positive zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">벌  점</div>
+          <div class="score-value negative zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">합  계</div>
+          <div class="score-value total zero">0</div>
+        </div>
+      </div>
+      <div class="memo-area">
+        <div class="memo-label">비고</div>
+        <div class="memo-lines">
+          <div class="memo-line"></div>
+          <div class="memo-line"></div>
+        </div>
+      </div>
+      <div class="board-date">2026. ___. ___.</div>
+    </div>
+    <div class="board-ledge"></div>
+  </div>
+</div>
+
+<!-- ② 방송부 -->
+<div class="board-wrap board-broadcast">
+  <div class="board-hanger">
+    <div class="hanger-peg"></div>
+    <div class="hanger-peg"></div>
+  </div>
+  <div class="board-frame">
+    <div class="board-surface">
+      <div class="club-name">방송부</div>
+      <div class="chalk-divider"></div>
+      <div class="score-grid">
+        <div class="score-cell">
+          <div class="score-label">상  점</div>
+          <div class="score-value positive zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">벌  점</div>
+          <div class="score-value negative zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">합  계</div>
+          <div class="score-value total zero">0</div>
+        </div>
+      </div>
+      <div class="memo-area">
+        <div class="memo-label">비고</div>
+        <div class="memo-lines">
+          <div class="memo-line"></div>
+          <div class="memo-line"></div>
+        </div>
+      </div>
+      <div class="board-date">2026. ___. ___.</div>
+    </div>
+    <div class="board-ledge"></div>
+  </div>
+</div>
+
+<!-- ③ 밴드부 -->
+<div class="board-wrap board-band">
+  <div class="board-hanger">
+    <div class="hanger-peg"></div>
+    <div class="hanger-peg"></div>
+  </div>
+  <div class="board-frame">
+    <div class="board-surface">
+      <div class="club-name">밴드부</div>
+      <div class="chalk-divider"></div>
+      <div class="score-grid">
+        <div class="score-cell">
+          <div class="score-label">상  점</div>
+          <div class="score-value positive zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">벌  점</div>
+          <div class="score-value negative zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">합  계</div>
+          <div class="score-value total zero">0</div>
+        </div>
+      </div>
+      <div class="memo-area">
+        <div class="memo-label">비고</div>
+        <div class="memo-lines">
+          <div class="memo-line"></div>
+          <div class="memo-line"></div>
+        </div>
+      </div>
+      <div class="board-date">2026. ___. ___.</div>
+    </div>
+    <div class="board-ledge"></div>
+  </div>
+</div>
+
+<!-- ④ 사진부 -->
+<div class="board-wrap board-photo">
+  <div class="board-hanger">
+    <div class="hanger-peg"></div>
+    <div class="hanger-peg"></div>
+  </div>
+  <div class="board-frame">
+    <div class="board-surface">
+      <div class="club-name">사진부</div>
+      <div class="chalk-divider"></div>
+      <div class="score-grid">
+        <div class="score-cell">
+          <div class="score-label">상  점</div>
+          <div class="score-value positive zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">벌  점</div>
+          <div class="score-value negative zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">합  계</div>
+          <div class="score-value total zero">0</div>
+        </div>
+      </div>
+      <div class="memo-area">
+        <div class="memo-label">비고</div>
+        <div class="memo-lines">
+          <div class="memo-line"></div>
+          <div class="memo-line"></div>
+        </div>
+      </div>
+      <div class="board-date">2026. ___. ___.</div>
+    </div>
+    <div class="board-ledge"></div>
+  </div>
+</div>
+
+<!-- ⑤ (임시) 졸업식 준비부 -->
+<div class="board-wrap board-graduation">
+  <div class="board-hanger">
+    <div class="hanger-peg"></div>
+    <div class="hanger-peg"></div>
+  </div>
+  <div class="board-frame">
+    <div class="board-surface">
+      <div style="text-align:center;">
+        <div class="temp-badge">임  시</div>
+      </div>
+      <div class="club-name">졸업식 준비부</div>
+      <div class="chalk-divider"></div>
+      <div class="score-grid">
+        <div class="score-cell">
+          <div class="score-label">상  점</div>
+          <div class="score-value positive zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">벌  점</div>
+          <div class="score-value negative zero">0</div>
+        </div>
+        <div class="score-divider-v"></div>
+        <div class="score-cell">
+          <div class="score-label">합  계</div>
+          <div class="score-value total zero">0</div>
+        </div>
+      </div>
+      <div class="memo-area">
+        <div class="memo-label">비고</div>
+        <div class="memo-lines">
+          <div class="memo-line"></div>
+          <div class="memo-line"></div>
+        </div>
+      </div>
+      <div class="board-date">2026. ___. ___.</div>
+    </div>
+    <div class="board-ledge"></div>
+  </div>
+</div>
+
+</body>
+</html>
