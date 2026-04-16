@@ -1,0 +1,940 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세광공업고등학교 — 부서 배정 테스트</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+  :root {
+    --green: #2e7d52;
+    --green-light: #e8f5ee;
+    --green-mid: #b8dfc8;
+    --navy: #1a2f5e;
+    --navy-light: #e8ecf5;
+    --navy-mid: #8fa3cc;
+    --white: #ffffff;
+    --off-white: #f7f9f7;
+    --gray: #6b7280;
+    --gray-light: #e5e7eb;
+    --ink: #1a1f1a;
+    --warn-red: #c0392b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--off-white);
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--ink);
+    min-height: 100vh;
+  }
+
+  /* ── 상단 헤더 ── */
+  .site-header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .header-inner {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .header-school {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.9);
+    letter-spacing: 0.05em;
+  }
+
+  .header-badge {
+    font-size: 11px;
+    background: var(--green);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 500;
+  }
+
+  /* ── 메인 컨테이너 ── */
+  .container {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 32px 24px 80px;
+  }
+
+  /* ── 인트로 카드 ── */
+  .intro-card {
+    background: var(--navy);
+    border-radius: 16px;
+    padding: 36px 40px;
+    margin-bottom: 28px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .intro-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 180px; height: 180px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+
+  .intro-card::after {
+    content: '';
+    position: absolute;
+    bottom: -20px; left: -20px;
+    width: 120px; height: 120px;
+    border-radius: 50%;
+    background: rgba(46,125,82,0.2);
+  }
+
+  .intro-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--green-mid);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .intro-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    line-height: 1.3;
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .intro-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.8;
+    font-weight: 300;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── 부서 소개 카드 그리드 ── */
+  .dept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+
+  .dept-card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px 18px 16px;
+    border: 1.5px solid var(--gray-light);
+    position: relative;
+  }
+
+  .dept-card.full-width { grid-column: 1 / -1; }
+
+  .dept-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 6px;
+    vertical-align: middle;
+  }
+
+  .dept-card-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .dept-card-desc {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .dept-tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px;
+    margin-bottom: 8px;
+  }
+
+  /* 부서별 컬러 */
+  .c-sundo   { background: #1a2f5e; }
+  .c-broadcast { background: #c0392b; }
+  .c-band    { background: #7d3c98; }
+  .c-photo   { background: #1a5276; }
+  .c-grad    { background: #2e7d52; }
+
+  .t-sundo   { background: #e8ecf5; color: #1a2f5e; }
+  .t-broadcast { background: #fdf2f2; color: #c0392b; }
+  .t-band    { background: #f5eef8; color: #7d3c98; }
+  .t-photo   { background: #eaf4fb; color: #1a5276; }
+  .t-grad    { background: #e8f5ee; color: #2e7d52; }
+
+  /* ── 테스트 폼 ── */
+  .test-card {
+    background: white;
+    border-radius: 16px;
+    border: 1.5px solid var(--gray-light);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .test-header {
+    background: var(--green);
+    padding: 16px 28px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .test-header-text {
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+    letter-spacing: 0.05em;
+  }
+
+  .test-body { padding: 8px 0; }
+
+  /* ── 개별 질문 ── */
+  .question-item {
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--gray-light);
+    transition: background 0.15s;
+  }
+
+  .question-item:last-child { border-bottom: none; }
+  .question-item:hover { background: var(--off-white); }
+
+  .question-item.answered { background: var(--green-light); }
+
+  .q-number {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--green);
+    letter-spacing: 0.15em;
+    margin-bottom: 6px;
+  }
+
+  .q-text {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.7;
+    margin-bottom: 14px;
+  }
+
+  /* 5점 척도 */
+  .scale-wrap {
+    display: flex;
+    gap: 0;
+    border: 1.5px solid var(--gray-light);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  .scale-option {
+    flex: 1;
+    position: relative;
+  }
+
+  .scale-option input[type="radio"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    margin: 0;
+  }
+
+  .scale-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 4px 8px;
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--gray);
+    line-height: 1.3;
+    text-align: center;
+    border-right: 1px solid var(--gray-light);
+    transition: background 0.15s, color 0.15s;
+    min-height: 56px;
+    font-weight: 400;
+    gap: 4px;
+  }
+
+  .scale-option:last-child .scale-label { border-right: none; }
+
+  .scale-dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 1.5px solid var(--gray-light);
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .scale-option input:checked ~ .scale-label {
+    background: var(--green-light);
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .scale-option input:checked ~ .scale-label .scale-dot {
+    background: var(--green);
+    border-color: var(--green);
+  }
+
+  /* ── 11번 — 지망 질문 ── */
+  .pref-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .pref-group { }
+
+  .pref-group-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--navy);
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .pref-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1.5px solid var(--gray-light);
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 6px;
+    transition: all 0.15s;
+  }
+
+  .pref-option:hover { border-color: var(--green-mid); background: var(--green-light); }
+
+  .pref-option input[type="radio"] {
+    accent-color: var(--green);
+    width: 15px; height: 15px;
+    flex-shrink: 0;
+  }
+
+  .pref-option-text {
+    font-size: 13px;
+    color: var(--ink);
+    font-weight: 400;
+  }
+
+  .pref-option:has(input:checked) {
+    border-color: var(--green);
+    background: var(--green-light);
+  }
+
+  .pref-option:has(input:checked) .pref-option-text { font-weight: 500; color: var(--green); }
+
+  /* ── 이름 입력 ── */
+  .name-input-wrap {
+    padding: 20px 28px;
+  }
+
+  .name-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gray);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .name-input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1.5px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--ink);
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .name-input:focus { border-color: var(--green); }
+
+  /* ── 제출 버튼 ── */
+  .submit-wrap {
+    text-align: center;
+    padding: 8px 0 4px;
+  }
+
+  .submit-btn {
+    background: var(--navy);
+    color: white;
+    border: none;
+    padding: 16px 56px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Noto Sans KR', sans-serif;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+    letter-spacing: 0.05em;
+  }
+
+  .submit-btn:hover { background: #122348; transform: translateY(-1px); }
+  .submit-btn:active { transform: translateY(0); }
+
+  .submit-note {
+    font-size: 11px;
+    color: var(--gray);
+    margin-top: 10px;
+    line-height: 1.6;
+  }
+
+  /* ── 결과 화면 ── */
+  #result-section {
+    display: none;
+    background: white;
+    border-radius: 16px;
+    border: 1.5px solid var(--gray-light);
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+
+  .result-header {
+    background: var(--navy);
+    padding: 28px 32px;
+    text-align: center;
+  }
+
+  .result-header-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.5);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+
+  .result-name-line {
+    font-size: 22px;
+    font-weight: 700;
+    color: white;
+  }
+
+  .result-body { padding: 28px 32px; }
+
+  .result-dept-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: var(--green);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .result-dept-name {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 20px;
+  }
+
+  .result-scores {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .result-score-item {
+    text-align: center;
+    padding: 12px 8px;
+    border-radius: 8px;
+    background: var(--off-white);
+    border: 1.5px solid var(--gray-light);
+  }
+
+  .result-score-item.top {
+    background: var(--green-light);
+    border-color: var(--green-mid);
+  }
+
+  .result-score-dept {
+    font-size: 11px;
+    color: var(--gray);
+    margin-bottom: 4px;
+    font-weight: 400;
+  }
+
+  .result-score-val {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .result-score-item.top .result-score-val { color: var(--green); }
+
+  .result-pref {
+    background: var(--navy-light);
+    border-radius: 8px;
+    padding: 14px 18px;
+    font-size: 13px;
+    color: var(--navy);
+    line-height: 1.8;
+  }
+
+  .copy-btn {
+    display: block;
+    width: 100%;
+    margin-top: 16px;
+    padding: 13px;
+    background: var(--off-white);
+    border: 1.5px solid var(--gray-light);
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--gray);
+    cursor: pointer;
+    transition: all 0.15s;
+    letter-spacing: 0.05em;
+  }
+
+  .copy-btn:hover { background: var(--green-light); border-color: var(--green-mid); color: var(--green); }
+
+  /* ── 진행 바 ── */
+  .progress-bar-wrap {
+    background: var(--gray-light);
+    height: 4px;
+    border-radius: 2px;
+    margin-bottom: 24px;
+    overflow: hidden;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+    width: 0%;
+  }
+
+  /* 모바일 */
+  @media (max-width: 600px) {
+    .container { padding: 20px 16px 60px; }
+    .intro-card { padding: 24px 20px; }
+    .intro-title { font-size: 22px; }
+    .dept-grid { grid-template-columns: 1fr; }
+    .dept-card.full-width { grid-column: auto; }
+    .question-item { padding: 16px 18px; }
+    .name-input-wrap { padding: 16px 18px; }
+    .scale-label { font-size: 10px; padding: 8px 2px; }
+    .pref-grid { grid-template-columns: 1fr; }
+    .result-scores { grid-template-columns: repeat(3, 1fr); }
+    .submit-btn { padding: 14px 36px; font-size: 14px; }
+    .result-body { padding: 20px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="site-header">
+  <div class="header-inner">
+    <div class="header-school">세광공업고등학교</div>
+    <div class="header-badge">부서 배정 테스트</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 인트로 -->
+  <div class="intro-card">
+    <div class="intro-label">졸업식 준비 부서 배정</div>
+    <div class="intro-title">어느 부서에서<br>졸업식을 준비할까요?</div>
+    <div class="intro-desc">아래 10개의 문항을 읽고 본인에게 해당하는 정도를 선택해 주세요.<br>마지막 문항에서는 희망 부서를 직접 선택합니다.</div>
+  </div>
+
+  <!-- 부서 소개 -->
+  <div class="dept-grid">
+    <div class="dept-card">
+      <div class="dept-tag t-sundo">선도부 (학생회)</div>
+      <div class="dept-card-name"><span class="dept-dot c-sundo"></span>선도부</div>
+      <div class="dept-card-desc">졸업식 전반을 기획하고 진행을 총괄합니다. 규율 유지와 현장 운영을 맡습니다.</div>
+    </div>
+    <div class="dept-card">
+      <div class="dept-tag t-broadcast">방송부</div>
+      <div class="dept-card-name"><span class="dept-dot c-broadcast"></span>방송부</div>
+      <div class="dept-card-desc">식 진행 중 음향과 영상, 마이크 운영을 담당합니다. 무대 뒤 縁의 손길.</div>
+    </div>
+    <div class="dept-card">
+      <div class="dept-tag t-band">밴드부</div>
+      <div class="dept-card-name"><span class="dept-dot c-band"></span>밴드부</div>
+      <div class="dept-card-desc">졸업식 축하 공연을 준비합니다. 음악으로 마지막 날을 물들이는 역할.</div>
+    </div>
+    <div class="dept-card">
+      <div class="dept-tag t-photo">사진부</div>
+      <div class="dept-card-name"><span class="dept-dot c-photo"></span>사진부</div>
+      <div class="dept-card-desc">졸업식의 순간을 기록합니다. 사진과 영상으로 추억을 남깁니다.</div>
+    </div>
+    <div class="dept-card full-width">
+      <div class="dept-tag t-grad">(특) 졸업식 준비부</div>
+      <div class="dept-card-name"><span class="dept-dot c-grad"></span>(특) 졸업식 준비부</div>
+      <div class="dept-card-desc">위의 어느 부서에도 속하지 않는 잡다한 준비를 전담합니다. 장식, 소품, 현수막, 의전 등 — 보이지 않는 곳에서 행사를 완성합니다.</div>
+    </div>
+  </div>
+
+  <!-- 진행 바 -->
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+
+  <!-- 테스트 폼 -->
+  <div id="test-form">
+    <div class="test-card">
+      <div class="test-header">
+        <div class="test-header-text">문항 1 – 10 &nbsp;·&nbsp; 5점 척도</div>
+      </div>
+      <div class="test-body">
+
+        <!-- 이름 입력 -->
+        <div class="name-input-wrap" style="border-bottom: 1px solid var(--gray-light);">
+          <label class="name-label" for="nameInput">닉네임 / 캐릭터명</label>
+          <input type="text" id="nameInput" class="name-input" placeholder="ex. 홍길동 / 세광이">
+        </div>
+
+        <!-- Q1 -->
+        <div class="question-item" id="qi-1">
+          <div class="q-number">Q 01</div>
+          <div class="q-text">많은 사람들 앞에서 발표하거나 행사를 진행하는 것이 크게 부담되지 않는다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q1" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q1" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q1" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q1" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q1" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="question-item" id="qi-2">
+          <div class="q-number">Q 02</div>
+          <div class="q-text">규칙이나 진행 순서를 꼼꼼히 챙기는 편이고, 혼란스러운 상황을 정리하는 것을 잘한다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q2" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q2" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q2" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q2" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q2" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="question-item" id="qi-3">
+          <div class="q-number">Q 03</div>
+          <div class="q-text">기계나 장비를 다루는 것에 흥미가 있고, 음향·영상 같은 기술적인 작업이 재미있다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q3" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q3" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q3" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q3" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q3" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="question-item" id="qi-4">
+          <div class="q-number">Q 04</div>
+          <div class="q-text">무대 위보다 무대 뒤에서 조용히 지원하는 역할이 더 잘 맞는다고 느낀다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q4" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q4" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q4" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q4" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q4" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="question-item" id="qi-5">
+          <div class="q-number">Q 05</div>
+          <div class="q-text">음악을 연주하거나 노래하는 것을 좋아하고, 공연에 참여한 경험이 있다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q5" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q5" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q5" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q5" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q5" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q6 -->
+        <div class="question-item" id="qi-6">
+          <div class="q-number">Q 06</div>
+          <div class="q-text">사진을 찍거나 영상을 편집하는 것이 즐겁고, 좋은 장면을 포착하는 감각이 있다고 생각한다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q6" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q6" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q6" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q6" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q6" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q7 -->
+        <div class="question-item" id="qi-7">
+          <div class="q-number">Q 07</div>
+          <div class="q-text">꾸미거나 만드는 것을 좋아하고, 공간을 장식하거나 소품을 제작하는 작업이 즐겁다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q7" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q7" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q7" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q7" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q7" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q8 -->
+        <div class="question-item" id="qi-8">
+          <div class="q-number">Q 08</div>
+          <div class="q-text">행사 당일 현장에서 사람들을 안내하고 질서를 유지하는 역할에 보람을 느낄 것 같다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q8" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q8" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q8" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q8" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q8" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q9 -->
+        <div class="question-item" id="qi-9">
+          <div class="q-number">Q 09</div>
+          <div class="q-text">주어진 역할보다 더 많은 것을 챙기는 편이고, 빠진 것이 없는지 꼼꼼하게 확인한다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q9" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q9" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q9" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q9" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q9" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+        <!-- Q10 -->
+        <div class="question-item" id="qi-10">
+          <div class="q-number">Q 10</div>
+          <div class="q-text">혼자 조용히 작업하는 것보다 팀원과 함께 무언가를 만들어 가는 과정을 더 즐긴다.</div>
+          <div class="scale-wrap">
+            <div class="scale-option"><input type="radio" name="q10" value="1"><label class="scale-label"><div class="scale-dot"></div>전혀<br>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q10" value="2"><label class="scale-label"><div class="scale-dot"></div>그렇지<br>않다</label></div>
+            <div class="scale-option"><input type="radio" name="q10" value="3"><label class="scale-label"><div class="scale-dot"></div>보통<br>이다</label></div>
+            <div class="scale-option"><input type="radio" name="q10" value="4"><label class="scale-label"><div class="scale-dot"></div>그렇다</label></div>
+            <div class="scale-option"><input type="radio" name="q10" value="5"><label class="scale-label"><div class="scale-dot"></div>매우<br>그렇다</label></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Q11 — 지망 -->
+    <div class="test-card">
+      <div class="test-header" style="background: var(--navy);">
+        <div class="test-header-text">Q 11 &nbsp;·&nbsp; 희망 부서 선택</div>
+      </div>
+      <div class="question-item" style="border-bottom:none;">
+        <div class="q-text" style="margin-bottom:20px;">다섯 개 부서 중 가장 활동하고 싶은 부서를 1지망과 2지망으로 선택해 주세요.</div>
+        <div class="pref-grid">
+          <div class="pref-group">
+            <div class="pref-group-label">1지망</div>
+            <label class="pref-option"><input type="radio" name="pref1" value="선도부(학생회)"><span class="pref-option-text">선도부 (학생회)</span></label>
+            <label class="pref-option"><input type="radio" name="pref1" value="방송부"><span class="pref-option-text">방송부</span></label>
+            <label class="pref-option"><input type="radio" name="pref1" value="밴드부"><span class="pref-option-text">밴드부</span></label>
+            <label class="pref-option"><input type="radio" name="pref1" value="사진부"><span class="pref-option-text">사진부</span></label>
+            <label class="pref-option"><input type="radio" name="pref1" value="(특) 졸업식 준비부"><span class="pref-option-text">(특) 졸업식 준비부</span></label>
+          </div>
+          <div class="pref-group">
+            <div class="pref-group-label">2지망</div>
+            <label class="pref-option"><input type="radio" name="pref2" value="선도부(학생회)"><span class="pref-option-text">선도부 (학생회)</span></label>
+            <label class="pref-option"><input type="radio" name="pref2" value="방송부"><span class="pref-option-text">방송부</span></label>
+            <label class="pref-option"><input type="radio" name="pref2" value="밴드부"><span class="pref-option-text">밴드부</span></label>
+            <label class="pref-option"><input type="radio" name="pref2" value="사진부"><span class="pref-option-text">사진부</span></label>
+            <label class="pref-option"><input type="radio" name="pref2" value="(특) 졸업식 준비부"><span class="pref-option-text">(특) 졸업식 준비부</span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 제출 -->
+    <div class="submit-wrap">
+      <button class="submit-btn" onclick="submitForm()">결과 확인하기</button>
+      <div class="submit-note" id="submitError" style="color: var(--warn-red); display:none;">모든 문항에 응답한 후 제출해 주세요.</div>
+    </div>
+  </div>
+
+  <!-- 결과 화면 -->
+  <div id="result-section">
+    <div class="result-header">
+      <div class="result-header-label">부서 배정 결과</div>
+      <div class="result-name-line" id="resultName">—</div>
+    </div>
+    <div class="result-body">
+      <div class="result-dept-label">추천 부서</div>
+      <div class="result-dept-name" id="resultDept">—</div>
+      <div class="result-scores" id="resultScores"></div>
+      <div class="result-pref" id="resultPref"></div>
+      <button class="copy-btn" onclick="copyResult()">결과 텍스트 복사하기</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // 문항 답변 시 배경색 변경 + 진행바 업데이트
+  document.querySelectorAll('input[type="radio"]').forEach(input => {
+    input.addEventListener('change', () => {
+      updateProgress();
+      const qi = input.closest('.question-item');
+      if (qi) qi.classList.add('answered');
+    });
+  });
+
+  function updateProgress() {
+    const total = 12; // q1~q10 + pref1 + pref2
+    let answered = 0;
+    for (let i = 1; i <= 10; i++) {
+      if (document.querySelector(`input[name="q${i}"]:checked`)) answered++;
+    }
+    if (document.querySelector('input[name="pref1"]:checked')) answered++;
+    if (document.querySelector('input[name="pref2"]:checked')) answered++;
+    document.getElementById('progressBar').style.width = (answered / total * 100) + '%';
+  }
+
+  // 부서별 점수 매핑
+  // 선도부: q1, q2, q8  /  방송부: q3, q4  /  밴드부: q5  /  사진부: q6  /  특준비부: q7, q9
+  // q10은 전체 참여도 공통
+  const deptMap = {
+    '선도부': [1, 2, 8],
+    '방송부': [3, 4],
+    '밴드부': [5],
+    '사진부': [6],
+    '(특) 졸업식 준비부': [7, 9]
+  };
+
+  function submitForm() {
+    const name = document.getElementById('nameInput').value.trim();
+    for (let i = 1; i <= 10; i++) {
+      if (!document.querySelector(`input[name="q${i}"]:checked`)) {
+        document.getElementById('submitError').style.display = 'block';
+        document.getElementById(`qi-${i}`).scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+    }
+    if (!document.querySelector('input[name="pref1"]:checked') ||
+        !document.querySelector('input[name="pref2"]:checked')) {
+      document.getElementById('submitError').style.display = 'block';
+      return;
+    }
+    document.getElementById('submitError').style.display = 'none';
+
+    // 점수 계산
+    const scores = {};
+    for (const [dept, qs] of Object.entries(deptMap)) {
+      let total = 0;
+      qs.forEach(q => {
+        const v = parseInt(document.querySelector(`input[name="q${q}"]:checked`).value);
+        total += v;
+      });
+      // q10(팀활동) 보정: 모든 부서 +q10*0.2
+      const q10 = parseInt(document.querySelector('input[name="q10"]:checked').value);
+      scores[dept] = Math.round((total / qs.length + q10 * 0.2) * 10) / 10;
+    }
+
+    const topDept = Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+    const pref1 = document.querySelector('input[name="pref1"]:checked').value;
+    const pref2 = document.querySelector('input[name="pref2"]:checked').value;
+
+    // 결과 렌더링
+    document.getElementById('resultName').textContent = name || '응답자';
+    document.getElementById('resultDept').textContent = topDept;
+
+    const scoresEl = document.getElementById('resultScores');
+    scoresEl.innerHTML = '';
+    Object.entries(scores).sort((a,b)=>b[1]-a[1]).forEach(([dept, score]) => {
+      const isTop = dept === topDept;
+      scoresEl.innerHTML += `
+        <div class="result-score-item ${isTop ? 'top' : ''}">
+          <div class="result-score-dept">${dept}</div>
+          <div class="result-score-val">${score}</div>
+        </div>`;
+    });
+
+    document.getElementById('resultPref').innerHTML =
+      `1지망: <strong>${pref1}</strong> &nbsp;·&nbsp; 2지망: <strong>${pref2}</strong>`;
+
+    document.getElementById('test-form').style.display = 'none';
+    document.getElementById('result-section').style.display = 'block';
+    document.getElementById('result-section').scrollIntoView({ behavior: 'smooth' });
+
+    // 구글 시트 전송
+    sendToSheet({ name: name || '응답자', topDept, scores, pref1, pref2 });
+  }
+
+  function copyResult() {
+    const name = document.getElementById('resultName').textContent;
+    const dept = document.getElementById('resultDept').textContent;
+    const pref = document.getElementById('resultPref').textContent;
+    const text = `[부서 배정 테스트 결과]\n이름: ${name}\n추천 부서: ${dept}\n${pref}`;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = '복사 완료!';
+      setTimeout(() => btn.textContent = '결과 텍스트 복사하기', 2000);
+    });
+  }
+
+  // ── 구글 스프레드시트 전송 ──
+  // 아래 SCRIPT_URL을 본인의 Apps Script 웹앱 URL로 교체하세요.
+  const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
+  function sendToSheet(data) {
+    if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return; // 미설정 시 스킵
+    const params = new URLSearchParams({
+      name: data.name,
+      topDept: data.topDept,
+      pref1: data.pref1,
+      pref2: data.pref2,
+      scores: JSON.stringify(data.scores),
+      timestamp: new Date().toLocaleString('ko-KR')
+    });
+    fetch(SCRIPT_URL + '?' + params.toString()).catch(() => {});
+  }
+</script>
+</body>
+</html>
