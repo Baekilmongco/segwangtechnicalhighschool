@@ -829,10 +829,10 @@
   }
 
   // ── 구글 스프레드시트 전송 ──
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVq3QlZLBHqnKEqxDpqPbwSeOIXRQZNbLG9xTCqzRzR3x4RT2lbzyfTG3Gin-WrpggJw/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxe5E_XqRlnJb8CUcMeZlrm45L-NS0wj9Nk4OnZ2N7E2Zoa57tXjRgobbqPUL4ZZjkvqQ/exec';
 
   function sendToSheet(data) {
-    if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbxVq3QlZLBHqnKEqxDpqPbwSeOIXRQZNbLG9xTCqzRzR3x4RT2lbzyfTG3Gin-WrpggJw/exec') return;
+    if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbxe5E_XqRlnJb8CUcMeZlrm45L-NS0wj9Nk4OnZ2N7E2Zoa57tXjRgobbqPUL4ZZjkvqQ/exec') return;
     const params = new URLSearchParams({
       name: data.name,
       topDept: data.topDept,
