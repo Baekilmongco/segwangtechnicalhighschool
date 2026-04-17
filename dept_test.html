@@ -921,10 +921,10 @@
 
   // ── 구글 스프레드시트 전송 ──
   // 아래 SCRIPT_URL을 본인의 Apps Script 웹앱 URL로 교체하세요.
-  const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxVq3QlZLBHqnKEqxDpqPbwSeOIXRQZNbLG9xTCqzRzR3x4RT2lbzyfTG3Gin-WrpggJw/exec';
 
   function sendToSheet(data) {
-    if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') return; // 미설정 시 스킵
+    if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbxVq3QlZLBHqnKEqxDpqPbwSeOIXRQZNbLG9xTCqzRzR3x4RT2lbzyfTG3Gin-WrpggJw/exec') return; // 미설정 시 스킵
     const params = new URLSearchParams({
       name: data.name,
       topDept: data.topDept,
