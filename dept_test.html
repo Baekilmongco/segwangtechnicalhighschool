@@ -756,7 +756,6 @@
 </div>
 
 <script>
-  // 문항 답변 시 배경색 변경 + 진행바 업데이트
   document.querySelectorAll('input[type="radio"]').forEach(input => {
     input.addEventListener('change', () => {
       updateProgress();
@@ -776,7 +775,6 @@
     document.getElementById('progressBar').style.width = (answered / total * 100) + '%';
   }
 
-  // 부서별 점수 매핑
   const deptMap = {
     '선도부': [1, 2, 8],
     '방송부': [3, 4],
@@ -785,10 +783,9 @@
     '(임시) 졸업식 준비부': [7, 9]
   };
 
-  function submitForm() {
+  async function submitForm() {
     const name = document.getElementById('nameInput').value.trim();
 
-    // 미응답 검사
     for (let i = 1; i <= 10; i++) {
       if (!document.querySelector(`input[name="q${i}"]:checked`)) {
         document.getElementById('submitError').style.display = 'block';
@@ -796,52 +793,65 @@
         return;
       }
     }
+
     if (!document.querySelector('input[name="pref1"]:checked') ||
         !document.querySelector('input[name="pref2"]:checked')) {
       document.getElementById('submitError').style.display = 'block';
       return;
     }
+
     document.getElementById('submitError').style.display = 'none';
 
-    // 점수 계산 (구글 시트 전송용)
     const scores = {};
     for (const [dept, qs] of Object.entries(deptMap)) {
       let total = 0;
       qs.forEach(q => {
-        const v = parseInt(document.querySelector(`input[name="q${q}"]:checked`).value);
+        const v = parseInt(document.querySelector(`input[name="q${q}"]:checked`).value, 10);
         total += v;
       });
-      const q10 = parseInt(document.querySelector('input[name="q10"]:checked').value);
+      const q10 = parseInt(document.querySelector('input[name="q10"]:checked').value, 10);
       scores[dept] = Math.round((total / qs.length + q10 * 0.2) * 10) / 10;
     }
 
-    const topDept = Object.entries(scores).sort((a,b) => b[1]-a[1])[0][0];
+    const topDept = Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
     const pref1 = document.querySelector('input[name="pref1"]:checked').value;
     const pref2 = document.querySelector('input[name="pref2"]:checked').value;
 
-    // 폼 숨기고 제출 완료 화면 표시
-    document.getElementById('test-form').style.display = 'none';
-    document.getElementById('result-section').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    try {
+      await sendToSheet({
+        name: name || '응답자',
+        topDept,
+        pref1,
+        pref2,
+        scores
+      });
 
-    // 구글 시트 전송
-    sendToSheet({ name: name || '응답자', topDept, scores, pref1, pref2 });
+      document.getElementById('test-form').style.display = 'none';
+      document.getElementById('result-section').style.display = 'block';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (e) {
+      document.getElementById('submitError').style.display = 'block';
+      document.getElementById('submitError').textContent = '제출 중 오류가 발생했습니다. 다시 시도해 주세요.';
+      console.error(e);
+    }
   }
 
-  // ── 구글 스프레드시트 전송 ──
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxe5E_XqRlnJb8CUcMeZlrm45L-NS0wj9Nk4OnZ2N7E2Zoa57tXjRgobbqPUL4ZZjkvqQ/exec';
 
-  function sendToSheet(data) {
-    if (SCRIPT_URL === 'https://script.google.com/macros/s/AKfycbxe5E_XqRlnJb8CUcMeZlrm45L-NS0wj9Nk4OnZ2N7E2Zoa57tXjRgobbqPUL4ZZjkvqQ/exec') return;
+  async function sendToSheet(data) {
     const params = new URLSearchParams({
+      timestamp: new Date().toLocaleString('ko-KR'),
       name: data.name,
       topDept: data.topDept,
       pref1: data.pref1,
       pref2: data.pref2,
-      scores: JSON.stringify(data.scores),
-      timestamp: new Date().toLocaleString('ko-KR')
+      scores: JSON.stringify(data.scores)
     });
-    fetch(SCRIPT_URL + '?' + params.toString()).catch(() => {});
+
+    await fetch(`${SCRIPT_URL}?${params.toString()}`, {
+      method: 'GET',
+      mode: 'no-cors'
+    });
   }
 </script>
 </body>
