@@ -263,11 +263,16 @@
     errEl.style.display   = 'none';
 
     resizeImage(photo, 1200, async (resized) => {
+      const base64Data = resized.split(',')[1];
+      const mimeType   = resized.split(';')[0].split(':')[1];
+      const fileName   = `manito_${name}_${Date.now()}.jpg`;
+
       const payload = JSON.stringify({
-        timestamp: new Date().toLocaleString('ko-KR'),
-        name,
-        guess,
-        image: resized
+        item1:       name,
+        item2:       guess,
+        photoBase64: base64Data,
+        photoName:   fileName,
+        photoType:   mimeType
       });
 
       try {
