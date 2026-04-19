@@ -265,7 +265,7 @@
     resizeImage(photo, 1200, async (resized) => {
       const base64Data = resized.split(',')[1];
       const mimeType   = resized.split(';')[0].split(':')[1];
-      const fileName   = `manito_${name}_${Date.now()}.jpg`;
+      const fileName = `manito_${name}_${guess}_${Date.now()}.jpg`;
 
       const payload = JSON.stringify({
         item1:       name,
