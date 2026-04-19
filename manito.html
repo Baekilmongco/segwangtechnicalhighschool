@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>마니또 미션 인증</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;700&display=swap');
+
+  :root {
+    --navy: #0f1f3d;
+    --navy-mid: #1a3060;
+    --navy-light: #243d72;
+    --green: #1a4a2e;
+    --green-mid: #2e7d52;
+    --green-light: #d4ede0;
+    --white: #f4f7f4;
+    --gray: #7a8a9a;
+    --gray-light: #d0d8e0;
+    --ink: #0a1520;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--navy);
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--white);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px 60px;
+    transition: background 0.8s ease;
+  }
+
+  body.submitted {
+    background: #000;
+  }
+
+  /* ── 완료 화면 ── */
+  #done-screen {
+    display: none;
+    text-align: center;
+    animation: fadeIn 0.6s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .done-mark {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    border: 2.5px solid var(--green-mid);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+  }
+
+  .done-mark svg {
+    width: 32px; height: 32px;
+    stroke: var(--green-mid);
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .done-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .done-sub {
+    font-size: 13px;
+    color: rgba(255,255,255,0.35);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* ── 폼 ── */
+  #form-section {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  /* 상단 헤더 */
+  .form-header {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .form-eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--green-mid);
+    text-transform: uppercase;
+    font-weight: 500;
+    margin-bottom: 14px;
+  }
+
+  .form-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.5;
+    margin-bottom: 10px;
+  }
+
+  .form-desc {
+    font-size: 13px;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.8;
+    font-weight: 300;
+  }
+
+  /* 카드 */
+  .card {
+    background: var(--navy-mid);
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.07);
+    padding: 28px 28px;
+    margin-bottom: 12px;
+  }
+
+  .field-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.45);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .field-input {
+    width: 100%;
+    background: rgba(255,255,255,0.06);
+    border: 1.5px solid rgba(255,255,255,0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #fff;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .field-input::placeholder { color: rgba(255,255,255,0.2); }
+  .field-input:focus { border-color: var(--green-mid); }
+
+  /* 사진 업로드 */
+  .upload-area {
+    border: 1.5px dashed rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .upload-area:hover { border-color: var(--green-mid); background: rgba(46,125,82,0.06); }
+  .upload-area.has-image { border-color: var(--green-mid); border-style: solid; padding: 0; }
+
+  .upload-area input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+  }
+
+  .upload-icon {
+    width: 36px; height: 36px;
+    margin: 0 auto 10px;
+    opacity: 0.35;
+  }
+
+  .upload-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.4);
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .upload-text strong {
+    color: var(--green-mid);
+    font-weight: 500;
+  }
+
+  #preview-img {
+    display: none;
+    width: 100%;
+    border-radius: 8px;
+    max-height: 280px;
+    object-fit: cover;
+  }
+
+  /* 제출 버튼 */
+  .submit-btn {
+    width: 100%;
+    padding: 16px;
+    background: var(--green);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+    transition: background 0.15s, transform 0.1s;
+    margin-top: 4px;
+  }
+
+  .submit-btn:hover { background: var(--green-mid); }
+  .submit-btn:active { transform: scale(0.99); }
+  .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .error-msg {
+    font-size: 12px;
+    color: #e07070;
+    text-align: center;
+    margin-top: 10px;
+    display: none;
+  }
+
+  /* 로딩 스피너 */
+  .spinner {
+    display: none;
+    width: 20px; height: 20px;
+    border: 2px solid rgba(255,255,255,0.3);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  @media (max-width: 480px) {
+    .form-title { font-size: 18px; }
+    .card { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- 완료 화면 -->
+<div id="done-screen">
+  <div class="done-mark">
+    <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+  </div>
+  <div class="done-title">제출되었습니다!</div>
+  <div class="done-sub">미션 수행 기록이 정상적으로 접수되었습니다.<br>수고했습니다 ✦</div>
+</div>
+
+<!-- 폼 -->
+<div id="form-section">
+  <div class="form-header">
+    <div class="form-eyebrow">세광공업고등학교 — 마니또</div>
+    <div class="form-title">마니또를 수행하였나요?<br>미션을 성공한 학생은 아래에<br>사진을 첨부해 주세요!</div>
+    <div class="form-desc">제출된 내용은 운영진에게만 전달됩니다.</div>
+  </div>
+
+  <!-- 이름 -->
+  <div class="card">
+    <label class="field-label" for="nameInput">본인 이름 / 캐릭터명</label>
+    <input type="text" id="nameInput" class="field-input" placeholder="ex. 홍길동">
+  </div>
+
+  <!-- 마니또 추측 -->
+  <div class="card">
+    <label class="field-label" for="guessInput">당신의 마니또는 누구일 것 같습니까?</label>
+    <input type="text" id="guessInput" class="field-input" placeholder="ex. 김철수인 것 같습니다">
+  </div>
+
+  <!-- 사진 업로드 -->
+  <div class="card">
+    <label class="field-label">미션 수행 인증 사진</label>
+    <div class="upload-area" id="uploadArea">
+      <input type="file" id="photoInput" accept="image/*" onchange="handlePhoto(event)">
+      <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="3"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 21"/>
+      </svg>
+      <div class="upload-text"><strong>사진을 선택</strong>하거나 여기에 끌어다 놓으세요<br><span style="font-size:11px;">JPG, PNG, HEIC 등</span></div>
+      <img id="preview-img" alt="미리보기">
+    </div>
+  </div>
+
+  <button class="submit-btn" id="submitBtn" onclick="submitForm()">제출하기</button>
+  <div class="spinner" id="spinner"></div>
+  <div class="error-msg" id="errorMsg">이름과 사진을 모두 입력해 주세요.</div>
+</div>
+
+<script>
+  // ── 사진 미리보기 ──
+  function handlePhoto(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const img = document.getElementById('preview-img');
+      img.src = ev.target.result;
+      img.style.display = 'block';
+      document.getElementById('uploadArea').classList.add('has-image');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  // ── 드래그 앤 드롭 ──
+  const uploadArea = document.getElementById('uploadArea');
+  uploadArea.addEventListener('dragover', e => { e.preventDefault(); uploadArea.style.borderColor = '#2e7d52'; });
+  uploadArea.addEventListener('dragleave', () => { uploadArea.style.borderColor = ''; });
+  uploadArea.addEventListener('drop', e => {
+    e.preventDefault();
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      document.getElementById('photoInput').files = e.dataTransfer.files;
+      handlePhoto({ target: { files: [file] } });
+    }
+  });
+
+  // ── 제출 ──
+  const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+
+  function submitForm() {
+    const name   = document.getElementById('nameInput').value.trim();
+    const guess  = document.getElementById('guessInput').value.trim();
+    const photo  = document.getElementById('preview-img').src;
+
+    if (!name || !photo.startsWith('data:')) {
+      const err = document.getElementById('errorMsg');
+      err.style.display = 'block';
+      setTimeout(() => err.style.display = 'none', 3000);
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    const spinner = document.getElementById('spinner');
+    btn.style.display = 'none';
+    spinner.style.display = 'block';
+
+    // 이미지 리사이즈 (최대 1200px)
+    resizeImage(photo, 1200, (resized) => {
+      const payload = JSON.stringify({
+        timestamp: new Date().toLocaleString('ko-KR'),
+        name,
+        guess,
+        image: resized
+      });
+
+      if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+        // 미연동 시 바로 완료 화면
+        showDone();
+        return;
+      }
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: payload
+      })
+      .then(() => showDone())
+      .catch(() => showDone()); // 에러여도 완료 처리
+    });
+  }
+
+  function resizeImage(dataUrl, maxWidth, callback) {
+    const img = new Image();
+    img.onload = function() {
+      const ratio = Math.min(1, maxWidth / img.width);
+      const canvas = document.createElement('canvas');
+      canvas.width  = img.width  * ratio;
+      canvas.height = img.height * ratio;
+      canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+      callback(canvas.toDataURL('image/jpeg', 0.82));
+    };
+    img.src = dataUrl;
+  }
+
+  function showDone() {
+    document.body.classList.add('submitted');
+    setTimeout(() => {
+      document.getElementById('form-section').style.display = 'none';
+      document.getElementById('done-screen').style.display  = 'block';
+    }, 500);
+  }
+</script>
+</body>
+</html>
