@@ -335,25 +335,57 @@
   });
 
   // ── 제출 ──
-  const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+ const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-yLHzHHoIu7DUEwURnyZ8m5jaqtdjJ0FSJ6xSZn7yB01lBq7RNGFA7NveUek6Mzg36w/exec';
 
-  function submitForm() {
-    const name   = document.getElementById('nameInput').value.trim();
-    const guess  = document.getElementById('guessInput').value.trim();
-    const photo  = document.getElementById('preview-img').src;
+  async function submitForm() {
+  const name  = document.getElementById('nameInput').value.trim();
+  const guess = document.getElementById('guessInput').value.trim();
+  const photo = document.getElementById('preview-img').src;
 
-    if (!name || !photo.startsWith('data:')) {
+  if (!name || !guess || !photo.startsWith('data:')) {
+    const err = document.getElementById('errorMsg');
+    err.style.display = 'block';
+    setTimeout(() => err.style.display = 'none', 3000);
+    return;
+  }
+
+  const btn = document.getElementById('submitBtn');
+  const spinner = document.getElementById('spinner');
+  btn.style.display = 'none';
+  spinner.style.display = 'block';
+
+  resizeImage(photo, 1200, async (resized) => {
+    const payload = JSON.stringify({
+      timestamp: new Date().toLocaleString('ko-KR'),
+      name: name,
+      guess: guess,
+      image: resized
+    });
+
+    try {
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'text/plain;charset=utf-8'
+        },
+        body: payload
+      });
+
+      const text = await res.text();
+      console.log('Apps Script response:', text);
+
+      showDone();
+    } catch (e) {
+      console.error(e);
       const err = document.getElementById('errorMsg');
+      err.textContent = '제출 중 오류가 발생했습니다. 다시 시도해 주세요.';
       err.style.display = 'block';
-      setTimeout(() => err.style.display = 'none', 3000);
-      return;
+
+      btn.style.display = 'block';
+      spinner.style.display = 'none';
     }
-
-    const btn = document.getElementById('submitBtn');
-    const spinner = document.getElementById('spinner');
-    btn.style.display = 'none';
-    spinner.style.display = 'block';
-
+  });
+}
     // 이미지 리사이즈 (최대 1200px)
     resizeImage(photo, 1200, (resized) => {
       const payload = JSON.stringify({
