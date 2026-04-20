@@ -18,7 +18,43 @@
     align-items: center;
     gap: 48px;
   }
+  
+  @media (max-width: 480px) {
+  body {
+    padding: 24px 12px 40px;
+    gap: 32px;
+  }
 
+  .club-name {
+    font-size: 30px;
+  }
+
+  .score-value {
+    font-size: 48px;
+  }
+
+  .score-label {
+    font-size: 13px;
+  }
+
+  .memo-text {
+    font-size: 16px;
+  }
+
+  .board-date {
+    font-size: 11px;
+    bottom: 10px;
+    right: 12px;
+  }
+
+  .board-surface {
+    padding: 20px 16px 32px;
+  }
+
+  .score-cell {
+    padding: 8px 6px 10px;
+  }
+}
   /* ── 페이지 헤더 ── */
   .page-header {
     text-align: center;
@@ -96,10 +132,9 @@
   .board-surface {
     background: #2d4a35;
     border-radius: 2px;
-    padding: 32px 36px 36px;
+    padding: 24px 20px 28px;
     position: relative;
     overflow: hidden;
-    aspect-ratio: 4 / 3;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
