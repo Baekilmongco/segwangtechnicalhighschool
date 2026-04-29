@@ -1,0 +1,446 @@
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Noto+Serif+KR:wght@300;400;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  .outer {
+    background: #0a0f0a;
+    min-height: 600px;
+    padding: 0 0 3rem;
+    font-family: 'Nanum Myeongjo', 'Noto Serif KR', serif;
+    color: #c8e8c0;
+  }
+
+  .header-bar {
+    background: #040d04;
+    border-bottom: 1px solid #1a3a1a;
+    padding: 1.5rem 2rem 1rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .header-bar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #6b2d2d, transparent);
+  }
+
+  .countdown-label {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: #7a4a4a;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+  }
+
+  .countdown-display {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin-bottom: 0.3rem;
+  }
+
+  .cd-unit {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 60px;
+  }
+
+  .cd-unit.ms { min-width: 72px; }
+
+  .cd-num {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #c0392b;
+    font-family: 'Nanum Myeongjo', monospace;
+    line-height: 1;
+    text-shadow: 0 0 8px #5e1a1a;
+    letter-spacing: 0.05em;
+  }
+
+  .cd-num.ms-num {
+    font-size: 1.5rem;
+    color: #8b2020;
+  }
+
+  .cd-sep {
+    font-size: 2rem;
+    color: #5a2d2d;
+    line-height: 1;
+    padding: 0 2px;
+    margin-top: 2px;
+  }
+
+  .cd-sep.small {
+    font-size: 1.3rem;
+    color: #3f1f1f;
+    margin-top: 8px;
+  }
+
+  .cd-lbl {
+    font-size: 9px;
+    color: #5a3a3a;
+    letter-spacing: 0.15em;
+    margin-top: 4px;
+  }
+
+  .mission-title {
+    margin-top: 1rem;
+    font-size: 1.3rem;
+    color: #a0c8a0;
+    letter-spacing: 0.1em;
+    border-top: 1px solid #1a3a1a;
+    padding-top: 0.8rem;
+    font-family: 'Nanum Myeongjo', serif;
+  }
+
+  .mission-title span {
+    color: #4a8a4a;
+    font-size: 0.9rem;
+    display: block;
+    margin-top: 0.3rem;
+    letter-spacing: 0.2em;
+  }
+
+  .content-area {
+    margin: 0;
+    padding: 2rem 1.5rem;
+    background: #000000;
+    border-top: 1px solid #1a3a1a;
+    border-bottom: 1px solid #1a3a1a;
+  }
+
+  .content-intro {
+    text-align: center;
+    color: #4a7a4a;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px dashed #1a3a1a;
+  }
+
+  .section {
+    margin-bottom: 1.8rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px dashed #111f11;
+  }
+
+  .section:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 0.8rem;
+  }
+
+  .section-badge {
+    font-size: 0.7rem;
+    color: #3a6a3a;
+    background: #060e06;
+    border: 1px solid #1a3a1a;
+    padding: 2px 8px;
+    letter-spacing: 0.15em;
+    font-family: monospace;
+    white-space: nowrap;
+  }
+
+  .section-title {
+    font-size: 1rem;
+    color: #8ac88a;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+  }
+
+  .section-body {
+    padding-left: 0.5rem;
+    border-left: 2px solid #1a3a1a;
+  }
+
+  .item {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 0.6rem;
+    font-size: 0.88rem;
+    color: #d0e8d0;
+    line-height: 1.7;
+  }
+
+  .item::before {
+    content: '\00B7';
+    color: #3a6a3a;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .item em {
+    color: #7aba7a;
+    font-style: normal;
+  }
+
+  .item strong {
+    color: #8b1a1a;
+    font-weight: 700;
+  }
+
+  .condition-box {
+    background: #020802;
+    border: 1px solid #1a3a1a;
+    padding: 1rem 1.2rem;
+    margin-top: 0.6rem;
+  }
+
+  .cond-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: #3a6a3a;
+    margin-bottom: 0.7rem;
+  }
+
+  .cond-item {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+    color: #b0d8b0;
+    line-height: 1.6;
+  }
+
+  .cond-num {
+    color: #2d5a2d;
+    font-family: monospace;
+    flex-shrink: 0;
+    font-size: 0.75rem;
+    margin-top: 3px;
+  }
+
+  .footer-bar {
+    background: #040d04;
+    border-top: 1px solid #1a3a1a;
+    padding: 1rem 2rem;
+    text-align: center;
+  }
+
+  .footer-text {
+    font-size: 0.85rem;
+    color: #3a6a3a;
+    letter-spacing: 0.15em;
+  }
+
+  .footer-text strong {
+    color: #5eb85e;
+  }
+
+  .blink {
+    animation: blink 2s step-end infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.2; }
+  }
+</style>
+
+<div class="outer">
+  <div class="header-bar">
+    <div class="countdown-label">탐사 종료까지</div>
+    <div class="countdown-display">
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-h">--</div>
+        <div class="cd-lbl">시간</div>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-m">--</div>
+        <div class="cd-lbl">분</div>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-s">--</div>
+        <div class="cd-lbl">초</div>
+      </div>
+      <div class="cd-sep small">.</div>
+      <div class="cd-unit ms">
+        <div class="cd-num ms-num" id="cd-ms">---</div>
+        <div class="cd-lbl">밀리초</div>
+      </div>
+    </div>
+    <div class="mission-title">
+      세광공업고등학교 탐사 종료
+      <span class="blink">— 검은 그늘 속에서 —</span>
+    </div>
+  </div>
+
+  <div class="content-area">
+    <div class="content-intro">[ 기밀 해제 문서 · 열람 권한 확인됨 ]</div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㄱ</span>
+        <span class="section-title">학교의 정체</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>학생주임과 학생회장은 이미 <em>'세광고등학교'</em> 괴담에 오염된 상태이다.</span></div>
+        <div class="item"><span>이들은 더 이상 정상적인 인물이 아니며, 학생들을 학교에 귀속시키기 위해 남아 있는 <strong>이레귤러</strong> 존재이다.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㄴ</span>
+        <span class="section-title">'검은 그늘 속에서' 탐사의 목적</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>'어둠 탐사'는 실제 탐사가 아닌, 요원 및 직원들을 학교에 <strong>끌어들이기 위한 장치</strong>이다.</span></div>
+        <div class="item"><span>합동 탐사 공문은 의도적으로 작성·배포되었으며, 탐사 자체가 이미 귀속 과정의 일부이다.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㄷ</span>
+        <span class="section-title">상벌점 시스템의 의미</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>상점과 벌점은 실질적인 보상이 아닌, <em>학생 역할에 몰입시키기 위한 장치</em>이다.</span></div>
+        <div class="item"><span>점수는 결과보다 <strong>행동을 유도하기 위한 수단</strong>이다.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㄹ</span>
+        <span class="section-title">시간의 고정</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>현재 학교의 시간은 <strong>2016년 4월</strong>에 고정되어 있다.</span></div>
+        <div class="item"><span>학주와 학생회장의 말투, 공지 형식, 일정은 모두 그 시점을 기준으로 유지된다.</span></div>
+        <div class="item"><span>날짜가 진행되는 것처럼 보이나, <em>실제로는 반복된다.</em></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㅁ</span>
+        <span class="section-title">귀속의 목적</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>학교는 당신들이 누구인지 알고 있다.</span></div>
+        <div class="item"><span>그러나 중요한 것은 "어둠 밖의 존재"가 아니라 <strong>"학생"</strong>으로서의 정체성이다.</span></div>
+        <div class="item"><span>최종 목표는 요원 및 직원들의 <em>완전한 학생화(동화)</em>이다.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㅂ</span>
+        <span class="section-title">공문의 변화</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>초기 공문은 정상적인 안내 형식을 띄나, <em>시간이 지날수록 변화한다.</em></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㅅ</span>
+        <span class="section-title">탐사 중 만난 존재들</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>탐사 중 마주친 학생들은 실제로는 <strong>선량한 세광고 학생들</strong>이다.</span></div>
+        <div class="item"><span>이들은 외부인을 내보내기 위해 힌트를 주지만, 외부인인 당신들의 시선에서는 <em>괴물처럼 인식된다.</em></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㅇ</span>
+        <span class="section-title">졸업생(라이어)의 의미</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>졸업생은 성공적인 졸업식 준비(탐사)를 방해했던 존재들이다. 그들이 받은 미션은, 탐사를 성공적으로 이끌기 위해 노력한 학생들을 졸업생으로 몰아 추방하는 것이다.</span></div>
+        <div class="item"><span>이들을 찾아내어 제거하는 과정은 <em>'성공적인 졸업식'을 위한 준비</em>로 포장된다.</span></div>
+        <div class="item"><span>실제로는 <strong>귀속을 가속화하는 과정</strong>이다.</span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㅈ</span>
+        <span class="section-title">졸업식의 진실</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span><strong>'졸업식'은 존재하지 않는다.</strong></span></div>
+        <div class="item"><span>학생들은 졸업하는 것이 아니라 <em>학교에 남게 된다.</em></span></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㅊ</span>
+        <span class="section-title">해피엔딩 조건</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>해피엔딩 루트는 존재한다.</span></div>
+        <div class="condition-box">
+          <div class="cond-label">[ 조건 ]</div>
+          <div class="cond-item"><span class="cond-num">01</span><span>졸업식 준비를 거부할 것</span></div>
+          <div class="cond-item"><span class="cond-num">02</span><span>주임 및 학생회장의 지시를 따르지 않을 것</span></div>
+          <div class="cond-item"><span class="cond-num">03</span><span>각 부서의 역할 수행을 방해할 것</span></div>
+          <div class="cond-item"><span class="cond-num">04</span><span>"학생으로 행동하지 않을 것"</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-head">
+        <span class="section-badge">ㅋ</span>
+        <span class="section-title">유니코드에 관하여</span>
+      </div>
+      <div class="section-body">
+        <div class="item"><span>세광공고 진입 초반, 유니코드를 말하던 자들은 <em>'이름'이 불린 자들</em>이다.</span></div>
+        <div class="item"><span>이름이 불리면 학교는 <strong>'그' 이름을 기억한다.</strong></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bar">
+    <div class="footer-text"><strong>세광공업고등학교</strong> 입학을 축하합니다 <span class="blink">:)</span></div>
+  </div>
+</div>
+
+<script>
+  function pad(n, len) { return String(n).padStart(len || 2, '0'); }
+
+  function tick() {
+    const now = new Date();
+    const target = new Date('2026-05-01T00:00:00+09:00');
+    let diff = target - now;
+    if (diff < 0) diff = 0;
+
+    const ms = diff % 1000;
+    const totalSec = Math.floor(diff / 1000);
+    const s = totalSec % 60;
+    const totalMin = Math.floor(totalSec / 60);
+    const m = totalMin % 60;
+    const h = Math.floor(totalMin / 60);
+
+    document.getElementById('cd-h').textContent = pad(h);
+    document.getElementById('cd-m').textContent = pad(m);
+    document.getElementById('cd-s').textContent = pad(s);
+    document.getElementById('cd-ms').textContent = pad(ms, 3);
+  }
+
+  tick();
+  setInterval(tick, 50);
+</script>
