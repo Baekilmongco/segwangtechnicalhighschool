@@ -2,70 +2,55 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap');
   *{box-sizing:border-box;margin:0;padding:0}
-  .outer{background:#0a0f0a;min-height:100vh;font-family:'Nanum Myeongjo',serif;color:#c8e8c0;font-size:15px}
+  .outer{background:#0a0f0a;min-height:100vh;font-family:'Nanum Myeongjo',serif;color:#c8e8c0;font-size:17px}
   .header-bar{background:#040d04;border-bottom:1px solid #1a3a1a;padding:1.4rem 1rem 1rem;text-align:center;position:relative}
   .header-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#6b2d2d,transparent)}
-  .countdown-label{font-size:12px;letter-spacing:.2em;color:#7a4a4a;text-transform:uppercase;margin-bottom:.7rem}
-  .countdown-display{display:flex;justify-content:center;align-items:flex-start;gap:2px;margin-bottom:.5rem}
-  .cd-unit{display:flex;flex-direction:column;align-items:center;min-width:60px}
-  .cd-unit.ms{min-width:64px}
-  .cd-num{font-size:2.8rem;font-weight:700;color:#c0392b;line-height:1;text-shadow:0 0 6px #5e1a1a;letter-spacing:.04em}
-  .cd-num.ms-num{font-size:1.7rem;color:#8b2020}
-  .cd-sep{font-size:2.4rem;color:#5a2d2d;line-height:1;padding:0 1px;margin-top:2px}
-  .cd-sep.small{font-size:1.6rem;color:#3f1f1f;margin-top:9px}
-  .cd-lbl{font-size:10px;color:#5a3a3a;letter-spacing:.12em;margin-top:4px}
-  .mission-title{margin-top:1rem;font-size:1.1rem;color:#a0c8a0;letter-spacing:.08em;border-top:1px solid #1a3a1a;padding-top:.8rem;line-height:1.6}
-  .mission-sub{color:#4a8a4a;font-size:.82rem;display:block;margin-top:.3rem;letter-spacing:.15em;animation:blink 2s step-end infinite}
-  .content-area{padding:1.4rem 1.2rem;background:#000;border-top:1px solid #1a3a1a}
-  .content-intro{text-align:center;color:#4a7a4a;font-size:.75rem;letter-spacing:.18em;margin-bottom:1.3rem;padding-bottom:.9rem;border-bottom:1px dashed #1a3a1a}
-  .section{margin-bottom:1.5rem;padding-bottom:1.3rem;border-bottom:1px dashed #111f11}
+  .countdown-label{font-size:13px;letter-spacing:.2em;color:#7a4a4a;text-transform:uppercase;margin-bottom:.7rem}
+  .countdown-display{display:flex;justify-content:center;align-items:flex-start;gap:0;margin-bottom:.6rem}
+  .cd-unit{display:flex;flex-direction:column;align-items:center;min-width:0;flex:1;max-width:80px}
+  .cd-unit.ms{max-width:70px}
+  .cd-num{font-size:clamp(2.6rem,11vw,3.8rem);font-weight:700;color:#c0392b;line-height:1;text-shadow:0 0 6px #5e1a1a;letter-spacing:.02em}
+  .cd-num.ms-num{font-size:clamp(1.6rem,7vw,2.4rem);color:#8b2020;margin-top:4px}
+  .cd-sep{font-size:clamp(2.2rem,9vw,3.2rem);color:#5a2d2d;line-height:1;padding:0 2px;margin-top:2px;flex-shrink:0}
+  .cd-sep.small{font-size:clamp(1.4rem,6vw,2rem);color:#3f1f1f;margin-top:10px;flex-shrink:0}
+  .cd-lbl{font-size:11px;color:#5a3a3a;letter-spacing:.12em;margin-top:4px}
+  .mission-title{margin-top:1rem;font-size:1.15rem;color:#a0c8a0;letter-spacing:.06em;border-top:1px solid #1a3a1a;padding-top:.9rem;line-height:1.7}
+  .mission-sub{color:#4a8a4a;font-size:.88rem;display:block;margin-top:.35rem;letter-spacing:.12em;animation:blink 2s step-end infinite}
+  .content-area{padding:1.5rem 1.2rem;background:#000;border-top:1px solid #1a3a1a}
+  .content-intro{text-align:center;color:#4a7a4a;font-size:.82rem;letter-spacing:.16em;margin-bottom:1.4rem;padding-bottom:1rem;border-bottom:1px dashed #1a3a1a}
+  .section{margin-bottom:1.7rem;padding-bottom:1.4rem;border-bottom:1px dashed #111f11}
   .section:last-child{border-bottom:none;margin-bottom:0}
-  .section-head{display:flex;align-items:center;gap:8px;margin-bottom:.8rem;flex-wrap:wrap}
-  .section-badge{font-size:.72rem;color:#3a6a3a;background:#060e06;border:1px solid #1a3a1a;padding:3px 8px;letter-spacing:.12em;font-family:monospace;white-space:nowrap;flex-shrink:0}
-  .section-title{font-size:1rem;color:#8ac88a;font-weight:700;letter-spacing:.04em;line-height:1.4}
-  .section-body{padding-left:.7rem;border-left:2px solid #1a3a1a}
-  .item{display:flex;gap:6px;margin-bottom:.6rem;font-size:.9rem;color:#d0e8d0;line-height:1.8}
+  .section-head{display:flex;align-items:center;gap:9px;margin-bottom:.9rem;flex-wrap:wrap}
+  .section-badge{font-size:.78rem;color:#3a6a3a;background:#060e06;border:1px solid #1a3a1a;padding:3px 9px;letter-spacing:.12em;font-family:monospace;white-space:nowrap;flex-shrink:0}
+  .section-title{font-size:1.08rem;color:#8ac88a;font-weight:700;letter-spacing:.04em;line-height:1.4}
+  .section-body{padding-left:.8rem;border-left:2px solid #1a3a1a}
+  .item{display:flex;gap:7px;margin-bottom:.7rem;font-size:1rem;color:#d0e8d0;line-height:1.85}
   .item::before{content:'·';color:#3a6a3a;flex-shrink:0;margin-top:2px}
   .item em{color:#7aba7a;font-style:normal}
   .item strong{color:#8b1a1a;font-weight:700}
-  .condition-box{background:#020802;border:1px solid #1a3a1a;padding:.9rem 1.1rem;margin-top:.6rem}
-  .cond-label{font-size:.7rem;letter-spacing:.18em;color:#3a6a3a;margin-bottom:.7rem}
-  .cond-item{display:flex;gap:10px;margin-bottom:.55rem;font-size:.88rem;color:#b0d8b0;line-height:1.7;align-items:flex-start}
-  .cond-num{color:#2d5a2d;font-family:monospace;flex-shrink:0;font-size:.75rem;margin-top:3px}
-  .footer-bar{background:#040d04;border-top:1px solid #1a3a1a;padding:1.2rem}
+  .condition-box{background:#020802;border:1px solid #1a3a1a;padding:1rem 1.1rem;margin-top:.7rem}
+  .cond-label{font-size:.76rem;letter-spacing:.18em;color:#3a6a3a;margin-bottom:.8rem}
+  .cond-item{display:flex;gap:10px;margin-bottom:.6rem;font-size:.97rem;color:#b0d8b0;line-height:1.75;align-items:flex-start}
+  .cond-num{color:#2d5a2d;font-family:monospace;flex-shrink:0;font-size:.8rem;margin-top:3px}
+  .footer-bar{background:#040d04;border-top:1px solid #1a3a1a;padding:1.4rem 1.2rem}
   .footer-inner{max-width:600px;margin:0 auto;text-align:center}
-  .footer-text{font-size:.82rem;color:#3a6a3a;letter-spacing:.12em;line-height:2.1}
+  .footer-text{font-size:.9rem;color:#3a6a3a;letter-spacing:.1em;line-height:2.2}
   .footer-text strong{color:#5eb85e}
   .welcome-smile{animation:blink 1.2s step-end infinite;color:#5eb85e}
   @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
   @media(min-width:600px){
-    .cd-unit{min-width:72px}
-    .cd-unit.ms{min-width:80px}
-    .cd-num{font-size:3.6rem}
-    .cd-num.ms-num{font-size:2.1rem}
-    .cd-sep{font-size:3rem}
-    .cd-sep.small{font-size:2rem;margin-top:12px}
-    .countdown-label{font-size:13px}
-    .mission-title{font-size:1.2rem}
-    .mission-sub{font-size:.88rem}
-    .content-area{padding:1.8rem 2rem}
-    .section-title{font-size:1.05rem}
-    .item{font-size:.92rem}
-    .footer-bar{padding:1.5rem 2rem}
-  }
-  @media(max-width:400px){
-    .cd-unit{min-width:50px}
-    .cd-unit.ms{min-width:56px}
-    .cd-num{font-size:2.4rem}
-    .cd-num.ms-num{font-size:1.5rem}
-    .cd-sep{font-size:2rem}
-    .cd-sep.small{font-size:1.3rem;margin-top:7px}
-    .countdown-display{gap:0}
-    .mission-title{font-size:1rem}
-    .content-area{padding:1rem .9rem}
-    .item{font-size:.85rem}
-    .section-title{font-size:.95rem}
+    .outer{font-size:16px}
+    .cd-num{font-size:3.8rem}
+    .cd-num.ms-num{font-size:2.3rem}
+    .cd-sep{font-size:3.2rem}
+    .cd-sep.small{font-size:2.1rem;margin-top:12px}
+    .mission-title{font-size:1.25rem}
+    .content-area{padding:2rem 2.5rem}
+    .item{font-size:1rem}
+    .section-title{font-size:1.1rem}
+    .footer-bar{padding:1.8rem 2.5rem}
+    .footer-text{font-size:.88rem}
   }
 </style>
 
@@ -194,49 +179,19 @@
   function tick(){
     const now=new Date();
     const target=new Date('2026-05-01T00:00:00+09:00');
-    let diff=target-now;
-    if(diff<0)diff=0;
-    const ms=diff%1000;
-    const ts=Math.floor(diff/1000);
+    let diff=target-now;if(diff<0)diff=0;
+    const ms=diff%1000,ts=Math.floor(diff/1000);
     document.getElementById('cd-h').textContent=pad(Math.floor(ts/3600));
     document.getElementById('cd-m').textContent=pad(Math.floor(ts/60)%60);
     document.getElementById('cd-s').textContent=pad(ts%60);
     document.getElementById('cd-ms').textContent=pad(ms,3);
   }
-  tick(); setInterval(tick,50);
+  tick();setInterval(tick,50);
 
-  const members = [
-    "!! | 방송부","134 | 졸업식 준비부","500 Internal Server Error | 밴드부",
-    "\ud3ec\ub3c4 | 사진부","bb | 졸업식 준비부","Contract | 사진부",
-    "Shot! | 선도부","Substanz | 사진부","■■홀릭 | 사진부","蝶夢 | 밴드부",
-    "귀하 | 사진부","깡으로 산다 | 선도부","내$담자집#착광^공* | 졸업식 준비부",
-    "류 | 선도부","블루스 | 졸업식 준비부","아가페 | 방송부","야가누군데 | 밴드부",
-    "양아치 | 밴드부","어둠탐사중가장난처한순간이에요 | 방송부","여름 | 사진부",
-    "예의주시 | 선도부","이랑 | 사진부","이름없음 | 밴드부","춘몽 | 방송부",
-    "포카리스웨터 | 밴드부","핑프 | 선도부","하늘 | 졸업식 준비부",
-    "호이가계속되면 | 밴드부","☺ | 방송부"
-  ];
-
-  const getName = s => s.split(' | ')[0];
-  function getSortKey(name) {
-    const f = [...name][0];
-    if (/[\uAC00-\uD7A3\u3131-\u318E]/.test(f)) return [1, name];
-    if (/[a-zA-Z]/.test(f)) return [2, name.toLowerCase()];
-    if (/[0-9]/.test(f)) return [3, name];
-    return [0, name];
-  }
-  members.sort((a,b) => {
-    const [ka,na] = getSortKey(getName(a));
-    const [kb,nb] = getSortKey(getName(b));
-    if (ka!==kb) return ka-kb;
-    return na<nb?-1:na>nb?1:0;
-  });
-
-  const list = document.getElementById('member-list');
-  members.forEach(m => {
-    const div = document.createElement('div');
-    div.className = 'footer-text';
-    div.textContent = m;
-    list.appendChild(div);
-  });
+  const members=["!! | 방송부","134 | 졸업식 준비부","500 Internal Server Error | 밴드부","\ud3ec\ub3c4 | 사진부","bb | 졸업식 준비부","Contract | 사진부","Shot! | 선도부","Substanz | 사진부","■■홀릭 | 사진부","蝶夢 | 밴드부","귀하 | 사진부","깡으로 산다 | 선도부","내$담자집#착광^공* | 졸업식 준비부","류 | 선도부","블루스 | 졸업식 준비부","아가페 | 방송부","야가누군데 | 밴드부","양아치 | 밴드부","어둠탐사중가장난처한순간이에요 | 방송부","여름 | 사진부","예의주시 | 선도부","이랑 | 사진부","이름없음 | 밴드부","춘몽 | 방송부","포카리스웨터 | 밴드부","핑프 | 선도부","하늘 | 졸업식 준비부","호이가계속되면 | 밴드부","☺ | 방송부"];
+  const getName=s=>s.split(' | ')[0];
+  function getSortKey(n){const f=[...n][0];if(/[\uAC00-\uD7A3\u3131-\u318E]/.test(f))return[1,n];if(/[a-zA-Z]/.test(f))return[2,n.toLowerCase()];if(/[0-9]/.test(f))return[3,n];return[0,n];}
+  members.sort((a,b)=>{const[ka,na]=getSortKey(getName(a));const[kb,nb]=getSortKey(getName(b));if(ka!==kb)return ka-kb;return na<nb?-1:na>nb?1:0;});
+  const list=document.getElementById('member-list');
+  members.forEach(m=>{const d=document.createElement('div');d.className='footer-text';d.textContent=m;list.appendChild(d);});
 </script>
