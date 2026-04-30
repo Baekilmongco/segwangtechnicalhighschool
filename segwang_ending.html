@@ -1,205 +1,71 @@
 
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap');
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  .outer {
-    background: #0a0f0a;
-    min-height: 100vh;
-    font-family: 'Nanum Myeongjo', serif;
-    color: #c8e8c0;
-    font-size: 15px;
+  *{box-sizing:border-box;margin:0;padding:0}
+  .outer{background:#0a0f0a;min-height:100vh;font-family:'Nanum Myeongjo',serif;color:#c8e8c0;font-size:15px}
+  .header-bar{background:#040d04;border-bottom:1px solid #1a3a1a;padding:1.4rem 1rem 1rem;text-align:center;position:relative}
+  .header-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#6b2d2d,transparent)}
+  .countdown-label{font-size:12px;letter-spacing:.2em;color:#7a4a4a;text-transform:uppercase;margin-bottom:.7rem}
+  .countdown-display{display:flex;justify-content:center;align-items:flex-start;gap:2px;margin-bottom:.5rem}
+  .cd-unit{display:flex;flex-direction:column;align-items:center;min-width:60px}
+  .cd-unit.ms{min-width:64px}
+  .cd-num{font-size:2.8rem;font-weight:700;color:#c0392b;line-height:1;text-shadow:0 0 6px #5e1a1a;letter-spacing:.04em}
+  .cd-num.ms-num{font-size:1.7rem;color:#8b2020}
+  .cd-sep{font-size:2.4rem;color:#5a2d2d;line-height:1;padding:0 1px;margin-top:2px}
+  .cd-sep.small{font-size:1.6rem;color:#3f1f1f;margin-top:9px}
+  .cd-lbl{font-size:10px;color:#5a3a3a;letter-spacing:.12em;margin-top:4px}
+  .mission-title{margin-top:1rem;font-size:1.1rem;color:#a0c8a0;letter-spacing:.08em;border-top:1px solid #1a3a1a;padding-top:.8rem;line-height:1.6}
+  .mission-sub{color:#4a8a4a;font-size:.82rem;display:block;margin-top:.3rem;letter-spacing:.15em;animation:blink 2s step-end infinite}
+  .content-area{padding:1.4rem 1.2rem;background:#000;border-top:1px solid #1a3a1a}
+  .content-intro{text-align:center;color:#4a7a4a;font-size:.75rem;letter-spacing:.18em;margin-bottom:1.3rem;padding-bottom:.9rem;border-bottom:1px dashed #1a3a1a}
+  .section{margin-bottom:1.5rem;padding-bottom:1.3rem;border-bottom:1px dashed #111f11}
+  .section:last-child{border-bottom:none;margin-bottom:0}
+  .section-head{display:flex;align-items:center;gap:8px;margin-bottom:.8rem;flex-wrap:wrap}
+  .section-badge{font-size:.72rem;color:#3a6a3a;background:#060e06;border:1px solid #1a3a1a;padding:3px 8px;letter-spacing:.12em;font-family:monospace;white-space:nowrap;flex-shrink:0}
+  .section-title{font-size:1rem;color:#8ac88a;font-weight:700;letter-spacing:.04em;line-height:1.4}
+  .section-body{padding-left:.7rem;border-left:2px solid #1a3a1a}
+  .item{display:flex;gap:6px;margin-bottom:.6rem;font-size:.9rem;color:#d0e8d0;line-height:1.8}
+  .item::before{content:'·';color:#3a6a3a;flex-shrink:0;margin-top:2px}
+  .item em{color:#7aba7a;font-style:normal}
+  .item strong{color:#8b1a1a;font-weight:700}
+  .condition-box{background:#020802;border:1px solid #1a3a1a;padding:.9rem 1.1rem;margin-top:.6rem}
+  .cond-label{font-size:.7rem;letter-spacing:.18em;color:#3a6a3a;margin-bottom:.7rem}
+  .cond-item{display:flex;gap:10px;margin-bottom:.55rem;font-size:.88rem;color:#b0d8b0;line-height:1.7;align-items:flex-start}
+  .cond-num{color:#2d5a2d;font-family:monospace;flex-shrink:0;font-size:.75rem;margin-top:3px}
+  .footer-bar{background:#040d04;border-top:1px solid #1a3a1a;padding:1.2rem}
+  .footer-inner{max-width:600px;margin:0 auto;text-align:center}
+  .footer-text{font-size:.82rem;color:#3a6a3a;letter-spacing:.12em;line-height:2.1}
+  .footer-text strong{color:#5eb85e}
+  .welcome-smile{animation:blink 1.2s step-end infinite;color:#5eb85e}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+  @media(min-width:600px){
+    .cd-unit{min-width:72px}
+    .cd-unit.ms{min-width:80px}
+    .cd-num{font-size:3.6rem}
+    .cd-num.ms-num{font-size:2.1rem}
+    .cd-sep{font-size:3rem}
+    .cd-sep.small{font-size:2rem;margin-top:12px}
+    .countdown-label{font-size:13px}
+    .mission-title{font-size:1.2rem}
+    .mission-sub{font-size:.88rem}
+    .content-area{padding:1.8rem 2rem}
+    .section-title{font-size:1.05rem}
+    .item{font-size:.92rem}
+    .footer-bar{padding:1.5rem 2rem}
   }
-  .header-bar {
-    background: #040d04;
-    border-bottom: 1px solid #1a3a1a;
-    padding: 1.2rem 1rem 1rem;
-    text-align: center;
-    position: relative;
-  }
-  .header-bar::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, #6b2d2d, transparent);
-  }
-  .countdown-label {
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    color: #7a4a4a;
-    text-transform: uppercase;
-    margin-bottom: 0.6rem;
-  }
-  .countdown-display {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    gap: 2px;
-    margin-bottom: 0.4rem;
-  }
-  .cd-unit {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-width: 52px;
-  }
-  .cd-unit.ms { min-width: 56px; }
-  .cd-num {
-    font-size: 2rem;
-    font-weight: 700;
-    color: #c0392b;
-    line-height: 1;
-    text-shadow: 0 0 6px #5e1a1a;
-    letter-spacing: 0.04em;
-  }
-  .cd-num.ms-num {
-    font-size: 1.3rem;
-    color: #8b2020;
-  }
-  .cd-sep {
-    font-size: 1.8rem;
-    color: #5a2d2d;
-    line-height: 1;
-    padding: 0 1px;
-    margin-top: 2px;
-  }
-  .cd-sep.small {
-    font-size: 1.2rem;
-    color: #3f1f1f;
-    margin-top: 7px;
-  }
-  .cd-lbl {
-    font-size: 9px;
-    color: #5a3a3a;
-    letter-spacing: 0.12em;
-    margin-top: 3px;
-  }
-  .mission-title {
-    margin-top: 0.8rem;
-    font-size: 1rem;
-    color: #a0c8a0;
-    letter-spacing: 0.08em;
-    border-top: 1px solid #1a3a1a;
-    padding-top: 0.7rem;
-    line-height: 1.5;
-  }
-  .mission-sub {
-    color: #4a8a4a;
-    font-size: 0.78rem;
-    display: block;
-    margin-top: 0.3rem;
-    letter-spacing: 0.15em;
-    animation: blink 2s step-end infinite;
-  }
-  .content-area {
-    padding: 1.2rem 1rem;
-    background: #000;
-    border-top: 1px solid #1a3a1a;
-  }
-  .content-intro {
-    text-align: center;
-    color: #4a7a4a;
-    font-size: 0.72rem;
-    letter-spacing: 0.18em;
-    margin-bottom: 1.2rem;
-    padding-bottom: 0.8rem;
-    border-bottom: 1px dashed #1a3a1a;
-  }
-  .section {
-    margin-bottom: 1.4rem;
-    padding-bottom: 1.2rem;
-    border-bottom: 1px dashed #111f11;
-  }
-  .section:last-child { border-bottom: none; margin-bottom: 0; }
-  .section-head {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 0.7rem;
-    flex-wrap: wrap;
-  }
-  .section-badge {
-    font-size: 0.68rem;
-    color: #3a6a3a;
-    background: #060e06;
-    border: 1px solid #1a3a1a;
-    padding: 2px 7px;
-    letter-spacing: 0.12em;
-    font-family: monospace;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .section-title {
-    font-size: 0.95rem;
-    color: #8ac88a;
-    font-weight: 700;
-    letter-spacing: 0.04em;
-    line-height: 1.4;
-  }
-  .section-body {
-    padding-left: 0.6rem;
-    border-left: 2px solid #1a3a1a;
-  }
-  .item {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 0.55rem;
-    font-size: 0.85rem;
-    color: #d0e8d0;
-    line-height: 1.75;
-  }
-  .item::before {
-    content: '\00B7';
-    color: #3a6a3a;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  .item em { color: #7aba7a; font-style: normal; }
-  .item strong { color: #8b1a1a; font-weight: 700; }
-  .condition-box {
-    background: #020802;
-    border: 1px solid #1a3a1a;
-    padding: 0.8rem 1rem;
-    margin-top: 0.5rem;
-  }
-  .cond-label {
-    font-size: 0.68rem;
-    letter-spacing: 0.18em;
-    color: #3a6a3a;
-    margin-bottom: 0.6rem;
-  }
-  .cond-item {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 0.5rem;
-    font-size: 0.83rem;
-    color: #b0d8b0;
-    line-height: 1.6;
-    align-items: flex-start;
-  }
-  .cond-num {
-    color: #2d5a2d;
-    font-family: monospace;
-    flex-shrink: 0;
-    font-size: 0.72rem;
-    margin-top: 3px;
-  }
-  .footer-bar {
-    background: #040d04;
-    border-top: 1px solid #1a3a1a;
-    padding: 1rem;
-    text-align: center;
-  }
-  .footer-text {
-    font-size: 0.8rem;
-    color: #3a6a3a;
-    letter-spacing: 0.12em;
-    line-height: 2;
-  }
-  .footer-text strong { color: #5eb85e; }
-  @keyframes blink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.2; }
+  @media(max-width:400px){
+    .cd-unit{min-width:50px}
+    .cd-unit.ms{min-width:56px}
+    .cd-num{font-size:2.4rem}
+    .cd-num.ms-num{font-size:1.5rem}
+    .cd-sep{font-size:2rem}
+    .cd-sep.small{font-size:1.3rem;margin-top:7px}
+    .countdown-display{gap:0}
+    .mission-title{font-size:1rem}
+    .content-area{padding:1rem .9rem}
+    .item{font-size:.85rem}
+    .section-title{font-size:.95rem}
   }
 </style>
 
@@ -207,24 +73,13 @@
   <div class="header-bar">
     <div class="countdown-label">귀속 완료까지</div>
     <div class="countdown-display">
-      <div class="cd-unit">
-        <div class="cd-num" id="cd-h">--</div>
-        <div class="cd-lbl">시간</div>
-      </div>
+      <div class="cd-unit"><div class="cd-num" id="cd-h">--</div><div class="cd-lbl">시간</div></div>
       <div class="cd-sep">:</div>
-      <div class="cd-unit">
-        <div class="cd-num" id="cd-m">--</div>
-        <div class="cd-lbl">분</div>
-      </div>
+      <div class="cd-unit"><div class="cd-num" id="cd-m">--</div><div class="cd-lbl">분</div></div>
       <div class="cd-sep">:</div>
-      <div class="cd-unit">
-        <div class="cd-num" id="cd-s">--</div>
-        <div class="cd-lbl">초</div>
-      </div>
+      <div class="cd-unit"><div class="cd-num" id="cd-s">--</div><div class="cd-lbl">초</div></div>
       <div class="cd-sep small">.</div>
-      <div class="cd-unit ms">
-        <div class="cd-num ms-num" id="cd-ms">---</div>
-      </div>
+      <div class="cd-unit ms"><div class="cd-num ms-num" id="cd-ms">---</div></div>
     </div>
     <div class="mission-title">
       세광공업고등학교 탐사 종료
@@ -234,113 +89,73 @@
 
   <div class="content-area">
     <div class="content-intro">[ 기밀 해제 문서 · 열람 권한 확인됨 ]</div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㄱ</span>
-        <span class="section-title">학교의 정체</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㄱ</span><span class="section-title">학교의 정체</span></div>
       <div class="section-body">
         <div class="item"><span>학생주임과 학생회장은 이미 <em>'세광고등학교'</em> 괴담에 오염된 상태이다.</span></div>
         <div class="item"><span>이들은 더 이상 정상적인 인물이 아니며, 학생들을 학교에 귀속시키기 위해 남아 있는 <strong>이레귤러</strong> 존재이다.</span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㄴ</span>
-        <span class="section-title">'세광공업고등학교' 탐사의 목적</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㄴ</span><span class="section-title">'세광공업고등학교' 탐사의 목적</span></div>
       <div class="section-body">
         <div class="item"><span>'어둠 탐사'는 실제 탐사가 아닌, 요원 및 직원들을 학교에 <strong>끌어들이기 위한 장치</strong>이다.</span></div>
         <div class="item"><span>합동 탐사 공문은 의도적으로 작성·배포되었으며, 탐사 자체가 이미 귀속 과정의 일부이다.</span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㄷ</span>
-        <span class="section-title">상벌점 시스템의 의미</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㄷ</span><span class="section-title">상벌점 시스템의 의미</span></div>
       <div class="section-body">
         <div class="item"><span>상점과 벌점은 실질적인 보상이 아닌, <em>학생 역할에 몰입시키기 위한 장치</em>이다.</span></div>
         <div class="item"><span>점수는 결과보다 <strong>행동을 유도하기 위한 수단</strong>이다.</span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㄹ</span>
-        <span class="section-title">시간의 고정</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㄹ</span><span class="section-title">시간의 고정</span></div>
       <div class="section-body">
         <div class="item"><span>현재 학교의 시간은 <strong>2016년 4월</strong>에 고정되어 있다.</span></div>
         <div class="item"><span>학주와 학생회장의 말투, 공지 형식, 일정은 모두 그 시점을 기준으로 유지된다.</span></div>
         <div class="item"><span>날짜가 진행되는 것처럼 보이나, <em>실제로는 반복된다.</em></span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㅁ</span>
-        <span class="section-title">귀속의 목적</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㅁ</span><span class="section-title">귀속의 목적</span></div>
       <div class="section-body">
         <div class="item"><span>학교는 당신들이 누구인지 알고 있다.</span></div>
         <div class="item"><span>그러나 중요한 것은 "어둠 밖의 존재"가 아니라 <strong>"학생"</strong>으로서의 정체성이다.</span></div>
         <div class="item"><span>최종 목표는 요원 및 직원들의 <em>완전한 학생화(동화)</em>이다.</span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㅂ</span>
-        <span class="section-title">공문의 변화</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㅂ</span><span class="section-title">공문의 변화</span></div>
       <div class="section-body">
         <div class="item"><span>초기 공문은 정상적인 안내 형식을 띄나, <em>시간이 지날수록 변화한다.</em></span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㅅ</span>
-        <span class="section-title">탐사 중 만난 존재들</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㅅ</span><span class="section-title">탐사 중 만난 존재들</span></div>
       <div class="section-body">
         <div class="item"><span>탐사 중 마주친 학생들은 실제로는 <strong>선량한 세광고 학생들</strong>이다.</span></div>
         <div class="item"><span>이들은 외부인을 내보내기 위해 힌트를 주지만, 외부인인 당신들의 시선에서는 <em>괴물처럼 인식된다.</em></span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㅇ</span>
-        <span class="section-title">졸업생(라이어)의 의미</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㅇ</span><span class="section-title">졸업생(라이어)의 의미</span></div>
       <div class="section-body">
         <div class="item"><span>졸업생은 성공적인 졸업식 준비(탐사)를 방해했던 존재들이다. 그들이 받은 미션은, 탐사를 성공적으로 이끌기 위해 노력한 학생들을 졸업생으로 몰아 추방하는 것이다.</span></div>
         <div class="item"><span>이들을 찾아내어 제거하는 과정은 <em>'성공적인 졸업식'을 위한 준비</em>로 포장된다.</span></div>
         <div class="item"><span>실제로는 <strong>귀속을 가속화하는 과정</strong>이다.</span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㅈ</span>
-        <span class="section-title">졸업식의 진실</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㅈ</span><span class="section-title">졸업식의 진실</span></div>
       <div class="section-body">
         <div class="item"><span><strong>'졸업식'은 존재하지 않는다.</strong></span></div>
         <div class="item"><span>학생들은 졸업하는 것이 아니라 <em>학교에 남게 된다.</em></span></div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㅊ</span>
-        <span class="section-title">해피엔딩 조건</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㅊ</span><span class="section-title">해피엔딩 조건</span></div>
       <div class="section-body">
         <div class="item"><span>해피엔딩 루트는 존재한다.</span></div>
         <div class="condition-box">
@@ -352,12 +167,8 @@
         </div>
       </div>
     </div>
-
     <div class="section">
-      <div class="section-head">
-        <span class="section-badge">ㅋ</span>
-        <span class="section-title">유니코드에 관하여</span>
-      </div>
+      <div class="section-head"><span class="section-badge">ㅋ</span><span class="section-title">유니코드에 관하여</span></div>
       <div class="section-body">
         <div class="item"><span>세광공고 진입 초반, 유니코드를 말하던 자들은 <em>'이름'이 불린 자들</em>이다.</span></div>
         <div class="item"><span>이름이 불리면 학교는 <strong>'그' 이름을 기억한다.</strong></span></div>
@@ -366,62 +177,66 @@
   </div>
 
   <div class="footer-bar">
-    <div class="footer-text"><strong>세광공업고등학교</strong> 귀속을 환영합니다 :)</div>
-    <div style="height: 10px;"></div>
-    <div class="footer-text"><strong>• Credit •</strong></div>
-    <div class="footer-text">제작 | 학생주임, 학생회장</div>
-    <div style="height: 10px;"></div>
-    <div class="footer-text"><strong>귀속 인원</strong></div>
-    <div class="footer-text">!! | 방송부</div>
-    <div class="footer-text">134 | 졸업식 준비부</div>
-    <div class="footer-text">500 Internal Server Error | 밴드부</div>
-    <div class="footer-text">\ud3ec\ub3c4 | 사진부</div>
-    <div class="footer-text">bb | 졸업식 준비부</div>
-    <div class="footer-text">Contract | 사진부</div>
-    <div class="footer-text">Shot! | 선도부</div>
-    <div class="footer-text">Substanz | 사진부</div>
-    <div class="footer-text">■■홀릭 | 사진부</div>
-    <div class="footer-text">蝶夢 | 밴드부</div>
-    <div class="footer-text">귀하 | 사진부</div>
-    <div class="footer-text">깡으로 산다 | 선도부</div>
-    <div class="footer-text">내$담자집#착광^공* | 졸업식 준비부</div>
-    <div class="footer-text">류 | 선도부</div>
-    <div class="footer-text">블루스 | 졸업식 준비부</div>
-    <div class="footer-text">아가페 | 방송부</div>
-    <div class="footer-text">야가누군데 | 밴드부</div>
-    <div class="footer-text">양아치 | 밴드부</div>
-    <div class="footer-text">어둠탐사중가장난처한순간이에요 | 방송부</div>
-    <div class="footer-text">여름 | 사진부</div>
-    <div class="footer-text">예의주시 | 선도부</div>
-    <div class="footer-text">이랑 | 사진부</div>
-    <div class="footer-text">이름없음 | 밴드부</div>
-    <div class="footer-text">춘몽 | 방송부</div>
-    <div class="footer-text">포카리스웨터 | 밴드부</div>
-    <div class="footer-text">핑프 | 선도부</div>
-    <div class="footer-text">하늘 | 졸업식 준비부</div>
-    <div class="footer-text">호이가계속되면 | 밴드부</div>
-    <div class="footer-text">☺ | 방송부</div>
+    <div class="footer-inner">
+      <div class="footer-text"><strong>세광공업고등학교</strong> 귀속을 환영합니다 <span class="welcome-smile">:)</span></div>
+      <div style="height:10px"></div>
+      <div class="footer-text"><strong>• Credit •</strong></div>
+      <div class="footer-text">제작 | 학생주임, 학생회장</div>
+      <div style="height:12px"></div>
+      <div class="footer-text"><strong>귀속 인원</strong></div>
+      <div id="member-list"></div>
+    </div>
   </div>
 </div>
 
 <script>
-  function pad(n, len) { return String(n).padStart(len || 2, '0'); }
-  function tick() {
-    const now = new Date();
-    const target = new Date('2026-05-01T00:00:00+09:00');
-    let diff = target - now;
-    if (diff < 0) diff = 0;
-    const ms = diff % 1000;
-    const totalSec = Math.floor(diff / 1000);
-    const s = totalSec % 60;
-    const totalMin = Math.floor(totalSec / 60);
-    const m = totalMin % 60;
-    const h = Math.floor(totalMin / 60);
-    document.getElementById('cd-h').textContent = pad(h);
-    document.getElementById('cd-m').textContent = pad(m);
-    document.getElementById('cd-s').textContent = pad(s);
-    document.getElementById('cd-ms').textContent = pad(ms, 3);
+  function pad(n,l){return String(n).padStart(l||2,'0')}
+  function tick(){
+    const now=new Date();
+    const target=new Date('2026-05-01T00:00:00+09:00');
+    let diff=target-now;
+    if(diff<0)diff=0;
+    const ms=diff%1000;
+    const ts=Math.floor(diff/1000);
+    document.getElementById('cd-h').textContent=pad(Math.floor(ts/3600));
+    document.getElementById('cd-m').textContent=pad(Math.floor(ts/60)%60);
+    document.getElementById('cd-s').textContent=pad(ts%60);
+    document.getElementById('cd-ms').textContent=pad(ms,3);
   }
-  tick();
-  setInterval(tick, 50);
+  tick(); setInterval(tick,50);
+
+  const members = [
+    "!! | 방송부","134 | 졸업식 준비부","500 Internal Server Error | 밴드부",
+    "\ud3ec\ub3c4 | 사진부","bb | 졸업식 준비부","Contract | 사진부",
+    "Shot! | 선도부","Substanz | 사진부","■■홀릭 | 사진부","蝶夢 | 밴드부",
+    "귀하 | 사진부","깡으로 산다 | 선도부","내$담자집#착광^공* | 졸업식 준비부",
+    "류 | 선도부","블루스 | 졸업식 준비부","아가페 | 방송부","야가누군데 | 밴드부",
+    "양아치 | 밴드부","어둠탐사중가장난처한순간이에요 | 방송부","여름 | 사진부",
+    "예의주시 | 선도부","이랑 | 사진부","이름없음 | 밴드부","춘몽 | 방송부",
+    "포카리스웨터 | 밴드부","핑프 | 선도부","하늘 | 졸업식 준비부",
+    "호이가계속되면 | 밴드부","☺ | 방송부"
+  ];
+
+  const getName = s => s.split(' | ')[0];
+  function getSortKey(name) {
+    const f = [...name][0];
+    if (/[\uAC00-\uD7A3\u3131-\u318E]/.test(f)) return [1, name];
+    if (/[a-zA-Z]/.test(f)) return [2, name.toLowerCase()];
+    if (/[0-9]/.test(f)) return [3, name];
+    return [0, name];
+  }
+  members.sort((a,b) => {
+    const [ka,na] = getSortKey(getName(a));
+    const [kb,nb] = getSortKey(getName(b));
+    if (ka!==kb) return ka-kb;
+    return na<nb?-1:na>nb?1:0;
+  });
+
+  const list = document.getElementById('member-list');
+  members.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'footer-text';
+    div.textContent = m;
+    list.appendChild(div);
+  });
 </script>
