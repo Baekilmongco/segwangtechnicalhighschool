@@ -2,7 +2,7 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap');
   *{box-sizing:border-box;margin:0;padding:0}
-  .outer{background:#0a0f0a;min-height:100vh;font-family:'Nanum Myeongjo',serif;color:#c8e8c0;font-size:20px}
+  .outer{background:#0a0f0a;min-height:100vh;font-family:'Nanum Myeongjo',serif;color:#c8e8c0;font-size:20px overflow-x: hidden;}
   .header-bar{background:#040d04;border-bottom:1px solid #1a3a1a;padding:1.4rem 1rem 1rem;text-align:center;position:relative}
   .header-bar::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#6b2d2d,transparent)}
   .countdown-label{font-size:13px;letter-spacing:.2em;color:#7a4a4a;text-transform:uppercase;margin-bottom:.7rem}
@@ -16,15 +16,15 @@
   .cd-lbl{font-size:11px;color:#5a3a3a;letter-spacing:.12em;margin-top:4px}
   .mission-title{margin-top:1.05rem;font-size:1.15rem;color:#a0c8a0;letter-spacing:.06em;border-top:1px solid #1a3a1a;padding-top:.9rem;line-height:1.7}
   .mission-sub{color:#4a8a4a;font-size:.88rem;display:block;margin-top:.35rem;letter-spacing:.12em;animation:blink 2s step-end infinite}
-  .content-area{padding:1.5rem 1.2rem;background:#000;border-top:1px solid #1a3a1a}
+  .content-area{padding:1.5rem 0.6rem;background:#000;border-top:1px solid #1a3a1a}
   .content-intro{text-align:center;color:#4a7a4a;font-size:.82rem;letter-spacing:.16em;margin-bottom:1.4rem;padding-bottom:1rem;border-bottom:1px dashed #1a3a1a}
   .section{margin-bottom:1.7rem;padding-bottom:1.4rem;border-bottom:1px dashed #111f11}
   .section:last-child{border-bottom:none;margin-bottom:0}
   .section-head{display:flex;align-items:center;gap:9px;margin-bottom:.9rem;flex-wrap:wrap}
   .section-badge{font-size:.78rem;color:#3a6a3a;background:#060e06;border:1px solid #1a3a1a;padding:3px 9px;letter-spacing:.12em;font-family:monospace;white-space:nowrap;flex-shrink:0}
   .section-title{font-size:1.15rem;color:#8ac88a;font-weight:700;letter-spacing:.04em;line-height:1.4}
-  .section-body{padding-left:.8rem;border-left:2px solid #1a3a1a}
-  .item{display:flex;gap:7px;margin-bottom:.7rem;font-size:1rem;color:#d0e8d0;line-height:1.85}
+  .section-body{padding-left:.4rem;border-left:2px solid #1a3a1a}
+  .item { display: flex; gap: 7px; margin-bottom: .7rem; font-size: 1rem; color: #d0e8d0; line-height: 1.85; word-break: keep-all; overflow-wrap: break-word; }
   .item::before{content:'·';color:#3a6a3a;flex-shrink:0;margin-top:2px}
   .item em{color:#7aba7a;font-style:normal}
   .item strong{color:#8b1a1a;font-weight:700}
